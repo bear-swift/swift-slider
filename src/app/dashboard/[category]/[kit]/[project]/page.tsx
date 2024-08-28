@@ -191,17 +191,13 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
 
             {/* button groups */}
             <div className="flex items-center justify-end gap-[16px]">
-              {
-                isLastStep &&
-                <Button
-                  variant="outlined"
-                  className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
-                  onClick={() => setSeeFullCode(true)}
-                >
-                  {`See full Code`}
-                </Button>
-              }
-
+              <Button
+                variant="outlined"
+                className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
+                onClick={() => setSeeFullCode(true)}
+              >
+                {`See full Code`}
+              </Button>
               {
                 <Button
                   variant="contained"

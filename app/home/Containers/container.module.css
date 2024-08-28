@@ -1,0 +1,65 @@
+@media (min-width: 1024px) {
+  .ellipse::before {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    width: 9px;
+    height: 9px;
+    border: 1px solid #dadada;
+
+    transform: translate(-50%, 50%) rotate(45deg);
+    z-index: 1;
+
+    background-color: white;
+  }
+
+  .ellipse::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+    width: 9px;
+    height: 9px;
+    border: 1px solid #dadada;
+
+    transform: translate(50%, 50%) rotate(45deg);
+    z-index: 1;
+
+    background-color: white;
+  }
+
+  .rect::before {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+
+    width: 9px;
+    height: 9px;
+    border: 1px solid #dadada;
+
+    transform: translate(-50%, 50%);
+    z-index: 1;
+
+    background-color: white;
+  }
+
+  .rect::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+    width: 9px;
+    height: 9px;
+    border: 1px solid #dadada;
+
+    transform: translate(50%, 50%);
+    z-index: 1;
+
+    background-color: white;
+  }
+}

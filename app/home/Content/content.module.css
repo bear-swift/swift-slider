@@ -1,0 +1,28 @@
+table.tablecontainer tr td:nth-child(1) {
+  width: 50%;
+}
+
+table.tablecontainer tr td:nth-child(2) {
+  width: 25%;
+}
+
+table.tablecontainer thead tr:first-child td {
+  border-top-width: 0;
+}
+
+table.tablecontainer tr td:first-child {
+  padding-left: 20px;
+  border-left-width: 0;
+}
+
+table.tablecontainer tr td:last-child {
+  border-right-width: 0;
+}
+
+table.tablecontainer tr:last-child td {
+  border-bottom-width: 0;
+}
+
+table.tablecontainer td {
+  border: 1px solid #ebebeb;
+}

@@ -17,7 +17,7 @@ const ProjectCard = ({ item, selected, onClick }: ProjectCardProps) => {
     router.push(`${pathname}/${item.id.replaceAll(" ", "-")}`);
   };
   return (
-    <DotShadowRoundedContainer activeColor={`#F4961D`} animate={!selected}>
+    <DotShadowRoundedContainer activeColor={`#F4961D`} animate={true}>
       <div
         className="p-[12px] flex flex-col justify-between gap-[16px] max-w-[280px] h-full"
         onClick={onClick}

@@ -70,7 +70,7 @@ const LeftPanel = () => {
 
       {/* main steps */}
       <div className="p-[8px] border border-my-[#DDDDDD] rounded-[12px] overflow-auto" style={{
-        height: 'calc(-650px + 100vh)'
+        height: 'calc(-450px + 100vh)'
       }}>
         <TimeLineMainStepList
           titles={detail?.steps.map((pr) => pr.title) || []}
@@ -87,7 +87,7 @@ const LeftPanel = () => {
         </div>
       </div>
       {/* review card */}
-      <ReviewCourseCard />
+      {/* <ReviewCourseCard /> */}
     </div>
   );
 };

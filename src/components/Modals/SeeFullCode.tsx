@@ -21,7 +21,7 @@ const SeeFullCodeModal = (props: SeeFullCodeModalProps) => {
       >
         <div className="text-white font-medium text-[16px]">Full Code</div>
 
-        <CodePanel popup={true} copyable={false} code={code} />
+        <CodePanel popup={true} copyable={true} code={code} />
 
         <Image
           src="/images/icons/decoration-left.png"

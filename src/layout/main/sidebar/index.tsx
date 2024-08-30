@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import { ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
-import { MenuItem } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface MenuType {
   icon: ReactNode;
@@ -51,11 +51,11 @@ const DashboardMenuItem = ({
 
 const SideBar = () => {
   const router = useRouter();
-  const userName = "Tran Huyen";
+  const userName = "user";
   const [activatedIndex, setActiveIndex] = useState<number>(0);
 
   const onLogoutClicked = () => {
-    
+
   };
 
   const onMenuClicked = (item: MenuType, index: number) => {
@@ -115,14 +115,7 @@ const SideBar = () => {
           <div className="flex items-center gap-[8px]">
             {/* avatar */}
             <div className="w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center">
-              <Image
-                alt={`avatar`}
-                src={`/images/icons/avatar.png`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full"
-              />
+              <AccountCircleIcon />
             </div>
 
             <div className="font-bold truncate max-w-[100px]">{userName}</div>

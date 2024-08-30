@@ -115,8 +115,8 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
 
   const goToNextSubStep = () => {
     if (!currentStep || !currentProjectDetail) return;
-
     const newSubStepIndex = currentSubStepIndex + 1;
+    
     if (newSubStepIndex < substepcount) {
       setCurrentSubStepIndex(newSubStepIndex); // go to next substep
     } else {

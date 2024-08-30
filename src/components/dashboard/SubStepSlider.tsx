@@ -14,13 +14,13 @@ interface SubStepSliderProps {
 
 type TPosition = "first" | 'mid' | "last" | 'alone';
 
-const SubStepItem = ({ step, pos }: { step: SubStep, pos: TPosition }) => {
-  const { goToNextSubStep, goToPrevSubStep } = useContext(KitContext);
-
+const SubStepItem = ({ step, index }: { step: SubStep, index: number }) => {
+  const { goToNextSubStep, goToPrevSubStep, currentSubStepIndex } = useContext(KitContext);
+  const isActive = currentSubStepIndex === index;
   return (
     // <div className="py-[40px] 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[300px] lg:max-w-[360px] w-[240px] mx-auto">
     <div className="py-[40px] w-[378px] mx-auto">
-      <div className="p-[20px] flex flex-col gap-[20px] activestep bg-white">
+      <div className={`p-[20px] flex flex-col gap-[20px] bg-white slide-card ${isActive ? 'activestep' : ''}`}>
         {
           step.title &&
           <div className="font-medium text-[16px]">{step.title}</div>
@@ -32,24 +32,26 @@ const SubStepItem = ({ step, pos }: { step: SubStep, pos: TPosition }) => {
             ))
           }
         </div>
+        {
+          isActive &&
+          <div className="flex items-center justify-end gap-[16px] flex-wrap">
+            <Button
+              variant="contained"
+              className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+              onClick={goToPrevSubStep}
+            >
+              {`Prev`}
+            </Button>
 
-        <div className="flex items-center justify-end gap-[16px] flex-wrap">
-          <Button
-            variant="contained"
-            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-            onClick={goToPrevSubStep}
-          >
-            {`Prev`}
-          </Button>
-
-          <Button
-            variant="contained"
-            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-            onClick={goToNextSubStep}
-          >
-            {`Next`}
-          </Button>
-        </div>
+            <Button
+              variant="contained"
+              className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+              onClick={goToNextSubStep}
+            >
+              {`Next`}
+            </Button>
+          </div>
+        }
       </div>
     </div>
   )
@@ -63,12 +65,41 @@ const SubStepSlider = (props: SubStepSliderProps) => {
   const settings = {
     className: "center",
     centerMode: true,
-    slidesToShow: 1,
-    centerPadding: "120px",
+    slidesToScroll: 1,
     initialSlide: 0,
-    infinite: false,
-    responsive: [
+    // infinite: false,
 
+    slidesToShow: 2,
+    centerPadding: "140px",
+
+    responsive: [
+      {
+        breakpoint: 1920,
+        settings: {
+          centerPadding: "80px",
+        }
+      },
+      {
+        breakpoint: 1680,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "200px",
+        }
+      },
+      {
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "130px",
+        }
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "100px",
+        }
+      },
     ],
     beforeChange: (current: number, next: number) => {
       setCurrentSubStepIndex(next);
@@ -83,11 +114,11 @@ const SubStepSlider = (props: SubStepSliderProps) => {
 
   return (
     // <div className="2xl:w-[1200px] xl:w-[800px] lg:w-[650px] w-[550px] mx-auto ">
-    <div className="w-[680px] mx-auto ">
+    <div className="mx-auto" style={{ width: "calc(100vw - 605px)" }}>
       {
         steps.length === 1 &&
         <div className="!flex items-center justify-center mx-auto slick-slide slick-active !float-none">
-          <SubStepItem step={steps[0]} pos="alone" />
+          <SubStepItem step={steps[0]} index={0} />
         </div>
       }
       {
@@ -98,13 +129,8 @@ const SubStepSlider = (props: SubStepSliderProps) => {
         >
           {
             steps.map((step, index) => {
-              let pos: TPosition = 'mid';
-
-              if (index === steps.length - 1) pos = 'last';
-              if (index === 0) pos = 'first';
-
               return (
-                <SubStepItem step={step} key={index} pos={pos} />
+                <SubStepItem step={step} key={index} index={index} />
               )
             })
           }

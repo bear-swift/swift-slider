@@ -53,7 +53,7 @@ const LeftPanel = () => {
   const { currentProject: project, currentProjectDetail: detail, startProject: loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
 
   return (
-    <div className="w-[300px] min-w-[300px] flex flex-col gap-[16px] rounded-[12px] h-full overflow-hidden" >
+    <div className="w-[280px] min-w-[280px] flex flex-col gap-[16px] rounded-[12px] h-full overflow-hidden" >
       <div className="border border-my-[#DDDDDD] rounded-[12px] p-[8px] flex flex-col gap-[16px] overflow-hidden">
         {/* image */}
         <div className="rounded-[12px] h-[200px] min-h-[200px] overflow-hidden items-center justify-center" style={{
@@ -70,7 +70,7 @@ const LeftPanel = () => {
 
       {/* main steps */}
       <div className="p-[8px] border border-my-[#DDDDDD] rounded-[12px] overflow-auto" style={{
-        height: 'calc(-450px + 100vh)'
+        height: 'calc(-520px + 100vh)'
       }}>
         <TimeLineMainStepList
           titles={detail?.steps.map((pr) => pr.title) || []}

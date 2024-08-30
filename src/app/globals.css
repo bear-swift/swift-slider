@@ -22,13 +22,13 @@ body {
   border-radius: 10px;
 }
 
-.slick-slide .activestep {
+.slick-slide .slide-card {
   filter: blur(3px);
   border: 1px dashed rgb(244, 150, 29);
   border-radius: 12px;
 }
 
-.slick-slide.slick-active .activestep {
+.slick-slide.slick-active .slide-card.activestep  {
   transform: scale(1.1);
   filter: none;
   box-shadow: -4px 4px 0px 0px rgb(244, 150, 29);

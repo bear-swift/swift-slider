@@ -6,6 +6,7 @@ import StepContentItem from "./StepContentItem";
 import { useContext, useEffect, useRef, useState } from "react";
 import DotShadowRoundedContainer from "../DotShadow";
 import { KitContext } from "@/providers/KitProvider";
+import { Button } from "@mui/material";
 
 interface SubStepSliderProps {
   steps: SubStep[],
@@ -14,6 +15,8 @@ interface SubStepSliderProps {
 type TPosition = "first" | 'mid' | "last" | 'alone';
 
 const SubStepItem = ({ step, pos }: { step: SubStep, pos: TPosition }) => {
+  const { goToNextSubStep, goToPrevSubStep } = useContext(KitContext);
+
   return (
     // <div className="py-[40px] 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[300px] lg:max-w-[360px] w-[240px] mx-auto">
     <div className="py-[40px] w-[378px] mx-auto">
@@ -28,6 +31,24 @@ const SubStepItem = ({ step, pos }: { step: SubStep, pos: TPosition }) => {
               <StepContentItem item={item} key={index} />
             ))
           }
+        </div>
+
+        <div className="flex items-center justify-end gap-[16px] flex-wrap">
+          <Button
+            variant="contained"
+            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+            onClick={goToPrevSubStep}
+          >
+            {`Prev`}
+          </Button>
+
+          <Button
+            variant="contained"
+            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+            onClick={goToNextSubStep}
+          >
+            {`Next`}
+          </Button>
         </div>
       </div>
     </div>
@@ -65,10 +86,8 @@ const SubStepSlider = (props: SubStepSliderProps) => {
     <div className="w-[680px] mx-auto ">
       {
         steps.length === 1 &&
-        <div className="flex items-center justify-center 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[400px] lg:max-w-[360px] mx-auto">
-          <DotShadowRoundedContainer animate={false} activeColor="#F4961D">
-            <SubStepItem step={steps[0]} pos="alone" />
-          </DotShadowRoundedContainer>
+        <div className="!flex items-center justify-center mx-auto slick-slide slick-active !float-none">
+          <SubStepItem step={steps[0]} pos="alone" />
         </div>
       }
       {

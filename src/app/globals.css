@@ -31,8 +31,5 @@ body {
 .slick-slide.slick-active .activestep {
   transform: scale(1.1);
   filter: none;
-}
-
-.slick-slide.slick-active .activestep {
   box-shadow: -4px 4px 0px 0px rgb(244, 150, 29);
 }

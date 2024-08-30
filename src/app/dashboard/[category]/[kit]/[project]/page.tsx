@@ -123,18 +123,15 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
           <div className="flex-grow h-full overflow-auto bg-white w-full p-[16px]">
             <MainStepPanel />
           </div>
-
           <div className="absolute bottom-0 left-0 w-full bg-white px-[16px] py-[4px] z-[3]">
-
-
             {/* button groups */}
             <div className="flex items-center justify-between gap-[16px]">
               {
-                isLastProject() && isLastStepInProject() ?
-                <FormControlLabel
-                  control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
-                  label="Mark the kit as completed"
-                /> : <div></div>
+                isLastStepInProject() && isLastProject() ?
+                  <FormControlLabel
+                    control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
+                    label="Mark the kit as completed"
+                  /> : <div></div>
               }
               <div className="flex items-center justify-end gap-[16px]">
                 <Button
@@ -145,22 +142,15 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
                   {`See full Code`}
                 </Button>
                 {
+                  isLastStepInProject() &&
                   <Button
                     variant="contained"
                     className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                    onClick={goToPrevSubStep}
+                    onClick={onNext}
                   >
-                    {`Prev Step`}
+                    {isLastProject() ? `Close Kit` : `Complete Project`}
                   </Button>
                 }
-
-                <Button
-                  variant="contained"
-                  className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                  onClick={onNext}
-                >
-                  {isLastStepInProject() ? (isLastProject() ? `Close Kit` : `Complete`) : `Next Step`}
-                </Button>
               </div>
             </div>
           </div>

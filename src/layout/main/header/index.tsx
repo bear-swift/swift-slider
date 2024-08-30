@@ -19,7 +19,6 @@ const MainHeader = () => {
   const [opened, setOpened] = useState<boolean>(false);
   let title = "";
 
-
   const generateBreadcrumbs = () => {
     const pathnames = pathname.split('/').slice(1, -1).filter((x) => x);
     return (
@@ -40,7 +39,10 @@ const MainHeader = () => {
   const pathnames: string[] = pathname.split("/").filter((item) => item !== "");
   if (pathnames.length >= 4) {
     const projectid = pathnames[3];
-    title = PROJECT_LIST.filter((item) => item.id === projectid)[0].title;
+    const filteredProjects = PROJECT_LIST.filter((item) => item.id === projectid);
+    if (filteredProjects.length > 0)
+      title = filteredProjects[0].title;
+
   } else {
     title =
       pathnames

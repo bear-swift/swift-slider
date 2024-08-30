@@ -125,40 +125,43 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
           </div>
 
           <div className="absolute bottom-0 left-0 w-full bg-white px-[16px] py-[4px] z-[3]">
-            {
-              isLastProject() && isLastStepInProject() &&
-              <FormControlLabel
-                control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
-                label="Mark the kit as completed"
-              />
-            }
+
 
             {/* button groups */}
-            <div className="flex items-center justify-end gap-[16px]">
-              <Button
-                variant="outlined"
-                className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
-                onClick={seeFullCode}
-              >
-                {`See full Code`}
-              </Button>
+            <div className="flex items-center justify-between gap-[16px]">
               {
+                isLastProject() && isLastStepInProject() ?
+                <FormControlLabel
+                  control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
+                  label="Mark the kit as completed"
+                /> : <div></div>
+              }
+              <div className="flex items-center justify-end gap-[16px]">
+                <Button
+                  variant="outlined"
+                  className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
+                  onClick={seeFullCode}
+                >
+                  {`See full Code`}
+                </Button>
+                {
+                  <Button
+                    variant="contained"
+                    className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+                    onClick={goToPrevSubStep}
+                  >
+                    {`Prev Step`}
+                  </Button>
+                }
+
                 <Button
                   variant="contained"
                   className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                  onClick={goToPrevSubStep}
+                  onClick={onNext}
                 >
-                  {`Prev Step`}
+                  {isLastStepInProject() ? (isLastProject() ? `Close Kit` : `Complete`) : `Next Step`}
                 </Button>
-              }
-
-              <Button
-                variant="contained"
-                className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                onClick={onNext}
-              >
-                {isLastStepInProject() ? (isLastProject() ? `Close Kit` : `Complete`) : `Next Step`}
-              </Button>
+              </div>
             </div>
           </div>
         </div>

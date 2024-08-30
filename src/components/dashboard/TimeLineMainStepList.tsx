@@ -20,7 +20,7 @@ const Dots = (props: DotsProps) => {
     <div className="flex items-center gap-[8px]">
       {/* circle */}
       <div
-        className={`rounded-full min-w-[18px] min-h-[18px] w-[18px] h-[18px] flex items-center justify-center border bg-white`}
+        className={`rounded-full min-w-[18px] min-h-[18px] w-[18px] h-[18px] flex items-center justify-center border bg-white z-[2]`}
         style={{ borderColor: currentColor, backgroundColor: status === 'completed' ? '#F4961D' : 'white' }}
       >
         {

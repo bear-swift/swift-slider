@@ -28,7 +28,7 @@ const ImagePopup = (props: ImagePopupProps) => {
           height={0}
           sizes="100vw"
           alt="image"
-          className="max-h-full max-w-full w-full"
+          className="max-h-full max-w-full w-full object-contain"
         />
       </div>
     </StyledModal>

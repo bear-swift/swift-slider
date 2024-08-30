@@ -9,6 +9,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -17,11 +18,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #365ca7;
+  background: rgb(244, 150, 29);
   border-radius: 10px;
 }
 
-.slick-slide .activestep  {
+.slick-slide .activestep {
   filter: blur(3px);
   border: 1px dashed rgb(244, 150, 29);
   border-radius: 12px;

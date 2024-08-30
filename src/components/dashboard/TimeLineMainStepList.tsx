@@ -1,4 +1,6 @@
+import { KitContext } from '@/providers/KitProvider';
 import DoneIcon from '@mui/icons-material/Done';
+import { useContext } from 'react';
 
 interface MainStepperProps {
   titles: string[];
@@ -43,6 +45,7 @@ const Dots = (props: DotsProps) => {
 
 const TimeLineMainStepList = (props: MainStepperProps) => {
   const { titles, currentStep } = props;
+  const { moveToStep } = useContext(KitContext);
 
   return (
     <div className="relative">
@@ -58,7 +61,7 @@ const TimeLineMainStepList = (props: MainStepperProps) => {
 
           return (
             <div className="relative overflow-hidden py-[3px]" key={index}>
-              <div className="z-[2] relative">
+              <div className="z-[2] relative" onClick={() => moveToStep(index)}>
                 <Dots
                   title={title}
                   status={status}

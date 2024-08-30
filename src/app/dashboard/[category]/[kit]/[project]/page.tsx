@@ -91,23 +91,26 @@ const LeftPanel = () => {
     </div>
   );
 };
+
 const ProjectPage = ({ params }: ProjectPageParams) => {
   const [isKitCompleted, setIsKitCompleted] = useState<boolean>(false);
   const { category, kit, project: projectid } = params;
-  const { goToNextSubStep, goToPrevSubStep, seeFullCode, loadProject, isLastStepInProject, showError, completeProject } = useContext(KitContext);
+  const { goToNextSubStep, goToPrevSubStep, seeFullCode, loadProject, isLastStepInProject, isLastProject, showError, completeProject, completeKit } = useContext(KitContext);
 
   useEffect(() => {
     loadProject(projectid);
   }, []);
 
   const onNext = () => {
-    if (isLastStepInProject) {
-      if (!isKitCompleted) {
-        showError();
-      } else {
-        completeProject();
+    if (isLastStepInProject()) {
+      if (isLastProject()) {
+        if (!isKitCompleted) {
+          showError();
+          return;
+        }
       }
-    }else{
+      completeProject();
+    } else {
       goToNextSubStep();
     }
   }
@@ -123,7 +126,7 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
 
           <div className="absolute bottom-0 left-0 w-full bg-white px-[16px] py-[4px] z-[3]">
             {
-              isLastStepInProject &&
+              isLastProject() && isLastStepInProject() &&
               <FormControlLabel
                 control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
                 label="Mark the kit as completed"
@@ -154,7 +157,7 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
                 className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
                 onClick={onNext}
               >
-                {isLastStepInProject ? `Complete Project` : `Next Step`}
+                {isLastStepInProject() ? (isLastProject() ? `Close Kit` : `Complete`) : `Next Step`}
               </Button>
             </div>
           </div>

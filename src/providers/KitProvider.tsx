@@ -1,54 +1,16 @@
 'use client'
 
 import SeeFullCodeModal from "@/components/Modals/SeeFullCode";
+import { DefaultKitContext } from "@/constants";
 import { INSTRUCTION_LIST } from "@/constants/instruction";
 import { PROJECT_LIST } from "@/constants/project";
-import { IKitItem, IProjectItem } from "@/types";
+import { IKitItem, IProjectItem, KitContextType } from "@/types";
 import { IProjectDetail, Step } from "@/types/instruction";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
-interface KitContextType {
-  kit: IKitItem | null,
-  currentProject: IProjectItem | null,
-  currentProjectDetail: IProjectDetail | null,
-  currentStepIndex: number,
-  currentSubStepIndex: number,
-  isLastStepInProject: boolean,
-  completedProjectIds: string[],
-
-  completeProject: () => void,
-  showError: () => void,
-  setCurrentSubStepIndex: (id: number) => void,
-  goToNextSubStep: () => void,
-  goToPrevSubStep: () => void,
-  loadKit: (kid: string) => Promise<void>,
-  loadProject: (pid: string) => Promise<void>,
-  seeFullCode: () => void
-}
-
-const defaultValue: KitContextType = {
-  kit: null,
-  currentProject: null,
-  currentProjectDetail: null,
-  currentStepIndex: -1,
-  currentSubStepIndex: -1,
-  isLastStepInProject: false,
-  completedProjectIds: [],
-
-  completeProject: () => { },
-  showError: () => { },
-  setCurrentSubStepIndex: (id: number) => { },
-  goToNextSubStep: () => { },
-  goToPrevSubStep: () => { },
-  loadKit: async (kid: string) => { },
-  loadProject: async (pid: string) => { },
-  seeFullCode: () => { }
-}
-
-export const KitContext = createContext<KitContextType>(defaultValue);
-
+export const KitContext = createContext<KitContextType>(DefaultKitContext);
 
 const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -64,21 +26,40 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const stepcount = currentProjectDetail?.steps.length || 0;
   const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
   const substepcount = currentStep ? currentStep.steps.length + (currentStep.additionalContent && currentStep.additionalContent.length > 0 ? 1 : 0) : 0;
-  const [isLastStepInProject, setIsLastStepInProject] = useState<boolean>(false);
 
-  useEffect(() => {
-    setIsLastStepInProject((currentStepIndex === (stepcount - 1)) && (currentSubStepIndex === (substepcount - 1) || substepcount === 0));
-  }, [currentSubStepIndex, currentStepIndex])
+  const isLastProject = () => {
+    if (!currentProject) return false;
+
+    const index = PROJECT_LIST.indexOf(currentProject);
+    return (index === PROJECT_LIST.length - 1);
+  }
+
+  const isLastStepInProject = () => {
+    return (currentStepIndex === (stepcount - 1)) && (currentSubStepIndex === (substepcount - 1) || substepcount === 0);
+  }
 
   const loadKit = async (kid: string) => {
 
   }
 
+  const completeKit = () => {
+    router.push('/dashboard');
+  }
+
   const completeProject = () => {
-    if (!currentProjectDetail) return;
+    if (!currentProjectDetail || !currentProject) return;
+
     if (!completedProjectIds.includes(currentProjectDetail.id))
       setCompletedProjectIds([...completedProjectIds, currentProjectDetail.id]);
-    router.push('/dashboard/Free-kits');
+    const currentProjectIndex = PROJECT_LIST.indexOf(currentProject);
+    const nextProjectIndex = currentProjectIndex + 1;
+
+    if (nextProjectIndex >= PROJECT_LIST.length)
+      completeKit();
+    else {
+      const pid = PROJECT_LIST[nextProjectIndex].id;
+      loadProject(pid);
+    }
   }
 
   const loadProject = async (pid: string) => {
@@ -89,13 +70,16 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
 
     setCurrentStepIndex(0);
     setCurrentSubStepIndex(0);
-    setIsLastStepInProject(false);
   }
 
   const seeFullCode = () => {
     setSeeFullCodeFlag(true);
   }
 
+  const moveToStep = (index: number) => {
+    setCurrentStepIndex(index);
+    setCurrentSubStepIndex(0);
+  }
   const goToPrevSubStep = () => {
     if (!currentStep || !currentProjectDetail) return;
 
@@ -133,13 +117,19 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }
+
   return (
     <KitContext.Provider value={{
       kit, currentProject, currentStepIndex, currentSubStepIndex, currentProjectDetail,
-      goToPrevSubStep, goToNextSubStep, loadKit, loadProject, seeFullCode, setCurrentSubStepIndex,
+      loadKit, loadProject, seeFullCode,
+      goToPrevSubStep, goToNextSubStep,
+      moveToStep,
+      setCurrentSubStepIndex,
       showError: () => setShowErrorFlag(true),
+      completeKit,
       completeProject,
       isLastStepInProject,
+      isLastProject,
       completedProjectIds
     }}>
       {children}

@@ -2,7 +2,8 @@
 
 import { SuggestKitModal } from "@/components/Modals";
 import { PROJECT_LIST } from "@/constants/project";
-import { Button } from "@mui/material";
+import { Breadcrumbs, Button } from "@mui/material";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -17,6 +18,25 @@ const MainHeader = () => {
   const pathname = usePathname();
   const [opened, setOpened] = useState<boolean>(false);
   let title = "";
+
+
+  const generateBreadcrumbs = () => {
+    const pathnames = pathname.split('/').slice(1, -1).filter((x) => x);
+    return (
+      <Breadcrumbs aria-label="breadcrumb">
+        {pathnames.map((value, index) => {
+          const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+          const last = index === pathnames.length - 1;
+          return (
+            <Link key={to} href={to} style={{ textDecoration: 'none', color: '#B3B3B3', fontSize: '12px' }}>
+              {formatLabel(value)}
+            </Link>
+          );
+        })}
+      </Breadcrumbs>
+    );
+  };
+
   const pathnames: string[] = pathname.split("/").filter((item) => item !== "");
   if (pathnames.length >= 4) {
     const projectid = pathnames[3];
@@ -36,15 +56,9 @@ const MainHeader = () => {
       <div className="flex justify-between items-center">
         <div>
           <div className="font-bold text-[12px] text-my-gray">
-            {pathnames
-              .slice(0, 3)
-              .map((word) =>
-                (word.charAt(0).toUpperCase() + word.slice(1)).replaceAll(
-                  "-",
-                  " ",
-                ),
-              )
-              .join("/")}
+            {
+              generateBreadcrumbs()
+            }
           </div>
           <div className="font-bold text-[16px]">{title}</div>
         </div>

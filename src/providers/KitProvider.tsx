@@ -5,6 +5,7 @@ import SeeFullCodeModal from "@/components/Modals/SeeFullCode";
 import { DefaultKitContext } from "@/constants";
 import { INSTRUCTION_LIST } from "@/constants/instruction";
 import { PROJECT_LIST } from "@/constants/project";
+import { endSession, startSession } from "@/store/project";
 import { IKitItem, IProjectItem, KitContextType } from "@/types";
 import { IProjectDetail, Step } from "@/types/instruction";
 import { Alert, Snackbar } from "@mui/material";
@@ -54,27 +55,32 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
     router.push('/dashboard');
   }
 
-  const completeProject = () => {
+  const completeProject = async () => {
     if (!currentProjectDetail || !currentProject) return;
 
     if (!completedProjectIds.includes(currentProjectDetail.id))
       setCompletedProjectIds([...completedProjectIds, currentProjectDetail.id]);
     const currentProjectIndex = PROJECT_LIST.indexOf(currentProject);
     const nextProjectIndex = currentProjectIndex + 1;
+    
+    //ending project or kit
+    await endSession();
 
     if (nextProjectIndex >= PROJECT_LIST.length)
       completeKit();
     else {
       const pid = PROJECT_LIST[nextProjectIndex].id;
-      loadProject(pid);
+      startProject(pid);
     }
   }
 
-  const loadProject = async (pid: string) => {
+  const startProject = async (pid: string) => {
     const newProject = PROJECT_LIST.filter(p => p.id === pid)[0];
     const newProjectDetail = INSTRUCTION_LIST.filter(p => p.projectid === pid)[0];
     setCurrentProject(newProject);
     setCurrentProjectDetail(newProjectDetail);
+
+    startSession(newProject.title);
 
     setCurrentStepIndex(0);
     setCurrentSubStepIndex(0);
@@ -129,7 +135,7 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   return (
     <KitContext.Provider value={{
       kit, currentProject, currentStepIndex, currentSubStepIndex, currentProjectDetail,
-      loadKit, loadProject, seeFullCode,
+      loadKit, startProject: startProject, seeFullCode,
       goToPrevSubStep, goToNextSubStep,
       moveToStep,
       setCurrentSubStepIndex,

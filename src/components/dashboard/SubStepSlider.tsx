@@ -4,7 +4,6 @@ import { SubStep } from "@/types/instruction";
 import Slider, { Settings } from "react-slick";
 import StepContentItem from "./StepContentItem";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Button } from "@mui/material";
 import DotShadowRoundedContainer from "../DotShadow";
 import { KitContext } from "@/providers/KitProvider";
 

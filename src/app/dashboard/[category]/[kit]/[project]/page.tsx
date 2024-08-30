@@ -50,7 +50,7 @@ const ReviewCourseCard = () => {
 }
 
 const LeftPanel = () => {
-  const { currentProject: project, currentProjectDetail: detail, loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
+  const { currentProject: project, currentProjectDetail: detail, startProject: loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
 
   return (
     <div className="w-[300px] min-w-[300px] flex flex-col gap-[16px] p-[16px] rounded-[12px] h-full bg-white " >
@@ -95,7 +95,7 @@ const LeftPanel = () => {
 const ProjectPage = ({ params }: ProjectPageParams) => {
   const [isKitCompleted, setIsKitCompleted] = useState<boolean>(false);
   const { category, kit, project: projectid } = params;
-  const { goToNextSubStep, goToPrevSubStep, seeFullCode, loadProject, isLastStepInProject, isLastProject, showError, completeProject, completeKit } = useContext(KitContext);
+  const { goToNextSubStep, goToPrevSubStep, seeFullCode, startProject: loadProject, isLastStepInProject, isLastProject, showError, completeProject } = useContext(KitContext);
 
   useEffect(() => {
     loadProject(projectid);

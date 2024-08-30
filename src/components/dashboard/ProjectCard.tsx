@@ -4,7 +4,6 @@ import { Button } from "@mui/material";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import LevelItem from "./LevelItem";
-
 interface ProjectCardProps {
   item: IProjectItem;
   selected: boolean;
@@ -13,7 +12,7 @@ interface ProjectCardProps {
 const ProjectCard = ({ item, selected, onClick }: ProjectCardProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const onStartClicked = () => {
+  const onStartClicked = async () => {
     router.push(`${pathname}/${item.id.replaceAll(" ", "-")}`);
   };
   return (

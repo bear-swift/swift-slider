@@ -35,7 +35,7 @@ const Dots = (props: DotsProps) => {
 
       <div
         className={`text-[12px]`}
-        style={{ color: status ? "#F4961D" : "black" }}
+        style={{ color: status !== 'todo' ? "#F4961D" : "black" }}
       >
         {title}
       </div>
@@ -61,7 +61,7 @@ const TimeLineMainStepList = (props: MainStepperProps) => {
 
           return (
             <div className="relative overflow-hidden py-[3px]" key={index}>
-              <div className="z-[2] relativ cursor-pointere" onClick={() => moveToStep(index)}>
+              <div className="z-[2] relativ cursor-pointer" onClick={() => moveToStep(index)}>
                 <Dots
                   title={title}
                   status={status}

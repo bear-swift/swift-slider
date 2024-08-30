@@ -22,7 +22,7 @@ interface KitContextType {
   goToNextSubStep: () => void,
   goToPrevSubStep: () => void,
   loadKit: (kid: string) => Promise<void>,
-  loadProject: (pid: string) => Promise<void>,
+  startProject: (pid: string) => Promise<void>,
   seeFullCode: () => void
 }
 

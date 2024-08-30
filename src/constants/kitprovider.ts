@@ -19,7 +19,7 @@ const DefaultKitContext: KitContextType = {
   goToNextSubStep: () => { },
   goToPrevSubStep: () => { },
   loadKit: async (kid: string) => { },
-  loadProject: async (pid: string) => { },
+  startProject: async (pid: string) => { },
   seeFullCode: () => { }
 }
 

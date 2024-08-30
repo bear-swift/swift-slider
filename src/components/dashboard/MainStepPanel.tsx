@@ -4,7 +4,7 @@ import SubStepSlider from "./SubStepSlider";
 import { KitContext, } from "@/providers/KitProvider";
 
 const MainStepPanel = () => {
-  const { currentProjectDetail, loadProject, currentStepIndex, currentSubStepIndex } = useContext(KitContext);
+  const { currentProjectDetail, startProject: loadProject, currentStepIndex, currentSubStepIndex } = useContext(KitContext);
   const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
   if (!currentStep) return null;
 

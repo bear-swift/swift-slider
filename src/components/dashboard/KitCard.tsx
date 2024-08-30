@@ -14,9 +14,6 @@ interface KitCardProps {
 }
 const KitCard = ({ item }: KitCardProps) => {
   const { completedProjectIds } = useContext(KitContext);
-
-  console.log(completedProjectIds);
-
   const pathname = usePathname();
   const router = useRouter();
   const onDetailsClicked = () => {

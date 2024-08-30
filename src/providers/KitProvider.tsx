@@ -111,7 +111,6 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       }
       else {
         //project is completed
-        console.log('moving prev project')
       }
     }
   }
@@ -131,7 +130,6 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       }
       else {
         //project is completed
-        console.log('completing project');
       }
     }
   }

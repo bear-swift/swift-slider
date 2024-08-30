@@ -16,7 +16,7 @@ type TPosition = "first" | 'mid' | "last" | 'alone';
 
 const SubStepItem = ({ step, pos }: { step: SubStep, pos: TPosition }) => {
   return (
-    <div className="py-[40px] 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[300px] lg:max-w-[360px] mx-auto">
+    <div className="py-[40px] 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[300px] lg:max-w-[360px] w-[240px] mx-auto">
       <div className="p-[20px] flex flex-col gap-[20px] activestep bg-white">
         {
           step.title &&
@@ -61,7 +61,7 @@ const SubStepSlider = (props: SubStepSliderProps) => {
   }, [currentSubStepIndex, sliderRef.current]);
 
   return (
-    <div className="2xl:w-[1200px] xl:w-[800px] w-[650px] mx-auto ">
+    <div className="2xl:w-[1200px] xl:w-[800px] lg:w-[650px] w-[550px] mx-auto ">
       {
         steps.length === 1 &&
         <div className="flex items-center justify-center 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[400px] lg:max-w-[360px] mx-auto">

@@ -1,5 +1,6 @@
 'use client'
 
+import { ImagePopup } from "@/components/Modals";
 import SeeFullCodeModal from "@/components/Modals/SeeFullCode";
 import { DefaultKitContext } from "@/constants";
 import { INSTRUCTION_LIST } from "@/constants/instruction";
@@ -22,10 +23,17 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const [seeFullCodeFlag, setSeeFullCodeFlag] = useState<boolean>(false);
   const [showErrorFlag, setShowErrorFlag] = useState<boolean>(false);
   const [completedProjectIds, setCompletedProjectIds] = useState<string[]>([]);
+  const [showImageFlag, setShowImageFlag] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   const stepcount = currentProjectDetail?.steps.length || 0;
   const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
   const substepcount = currentStep ? currentStep.steps.length + (currentStep.additionalContent && currentStep.additionalContent.length > 0 ? 1 : 0) : 0;
+
+  const showImage = (image: string) => {
+    setImageUrl(image);
+    setShowImageFlag(true);
+  }
 
   const isLastProject = () => {
     if (!currentProject) return false;
@@ -126,6 +134,7 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       moveToStep,
       setCurrentSubStepIndex,
       showError: () => setShowErrorFlag(true),
+      showImage: showImage,
       completeKit,
       completeProject,
       isLastStepInProject,
@@ -135,6 +144,7 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       {children}
       <SeeFullCodeModal visible={seeFullCodeFlag} onClose={() => setSeeFullCodeFlag(false)} code={currentProjectDetail?.fullcode || ''} />
       <ErrorMessage show={showErrorFlag} onClose={() => setShowErrorFlag(false)} />
+      <ImagePopup open={showImageFlag} onClose={() => setShowImageFlag(false)} image={imageUrl} />
     </KitContext.Provider>
   )
 }

@@ -61,7 +61,7 @@ const TimeLineMainStepList = (props: MainStepperProps) => {
 
           return (
             <div className="relative overflow-hidden py-[3px]" key={index}>
-              <div className="z-[2] relative" onClick={() => moveToStep(index)}>
+              <div className="z-[2] relativ cursor-pointere" onClick={() => moveToStep(index)}>
                 <Dots
                   title={title}
                   status={status}

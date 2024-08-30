@@ -16,6 +16,7 @@ interface KitContextType {
   completeProject: () => void,
   showError: () => void,
 
+  showImage: (url: string) => void,
   moveToStep: (id: number) => void,
   setCurrentSubStepIndex: (id: number) => void,
   goToNextSubStep: () => void,

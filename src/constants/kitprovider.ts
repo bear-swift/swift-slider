@@ -13,7 +13,7 @@ const DefaultKitContext: KitContextType = {
   completeKit: () => { },
   completeProject: () => { },
   showError: () => { },
-
+  showImage: (url: string) => { },
   moveToStep: (id: number) => { },
   setCurrentSubStepIndex: (id: number) => { },
   goToNextSubStep: () => { },

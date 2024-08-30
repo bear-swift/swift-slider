@@ -1,3 +1,3 @@
 import FontCatchyMelody from "./cathy-melody";
-
-export { FontCatchyMelody };
+import Mulish from "./mulish";
+export { Mulish, FontCatchyMelody };

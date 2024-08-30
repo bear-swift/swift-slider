@@ -5,7 +5,7 @@ interface KitProgressProps {
 }
 const KitProgress = ({ percent = 40 }: KitProgressProps) => {
   return (
-    <div className="h-[32px] rounded-[12px] bg-[#F7F7F7] flex items-center">
+    <div className="relative h-[32px] rounded-[12px] bg-[#F0F0F0] flex items-center min-w-[400px]">
       <div
         className="relative bg-[#16B54F] h-full rounded-[12px] flex items-center"
         style={{ width: `${percent}%` }}
@@ -17,8 +17,9 @@ const KitProgress = ({ percent = 40 }: KitProgressProps) => {
         width={26}
         height={32}
         sizes="100vw"
+        className="translate-x-[-50%]"
       />
-      <span className="px-[12px] text-my-gray">{`${percent}%`}</span>
+      <span className={`absolute ${percent > 10 ? 'text-white left-[10px]' : 'text-my-gray left-[30px]' } px-[12px]`}>{`${percent}%`}</span>
     </div >
   );
 };

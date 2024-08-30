@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { MainLayout } from "@/layout";
-import { FontCatchyMelody } from "@/resources/font";
+import { Mulish, FontCatchyMelody } from "@/resources/font";
+
+import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${FontCatchyMelody.variable} bg-[#F9F9F9]`}
+        className={`${Mulish.variable} ${Mulish.className} ${FontCatchyMelody.variable} ${FontCatchyMelody.className} bg-[#F9F9F9]`}
       >
-        <MainLayout>{children}</MainLayout>
+        <MainLayout>
+          {children}
+        </MainLayout>
       </body>
     </html>
   );

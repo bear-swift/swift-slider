@@ -53,8 +53,8 @@ const LeftPanel = () => {
   const { currentProject: project, currentProjectDetail: detail, startProject: loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
 
   return (
-    <div className="w-[300px] min-w-[300px] flex flex-col gap-[16px] p-[16px] rounded-[12px] h-full bg-white " >
-      <div className="border border-my-[#DDDDDD] rounded-[12px] p-[8px] flex flex-col gap-[16px]">
+    <div className="w-[300px] min-w-[300px] flex flex-col gap-[16px] rounded-[12px] h-full overflow-hidden" >
+      <div className="border border-my-[#DDDDDD] rounded-[12px] p-[8px] flex flex-col gap-[16px] overflow-hidden">
         {/* image */}
         <div className="rounded-[12px] h-[200px] min-h-[200px] overflow-hidden items-center justify-center" style={{
           background: `url(${project?.image}) center center / cover no-repeat`
@@ -78,7 +78,7 @@ const LeftPanel = () => {
         />
       </div>
       {/* help panel */}
-      <div className="bg-[#F4961D] rounded-[12px] bg-opacity-[0.05]">
+      <div className="bg-[#F4961D] rounded-[12px] bg-opacity-[0.05] border border-my-[#DDDDDD]">
         <div className="p-[12px]">
           <span>{`If your child needs help please check out `}</span>
           <a>
@@ -120,10 +120,10 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
       <div className="flex gap-[32px]" style={{ height: 'calc(100vh - 80px)' }}>
         <LeftPanel />
         <div className="relative h-full flex-grow">
-          <div className="flex-grow h-full overflow-auto bg-white w-full p-[16px]">
+          <div className="flex-grow h-full overflow-auto w-full p-[16px]">
             <MainStepPanel />
           </div>
-          <div className="absolute bottom-0 left-0 w-full bg-white px-[16px] py-[4px] z-[3]">
+          <div className="absolute bottom-0 left-0 w-full px-[16px] py-[4px] z-[3]">
             {/* button groups */}
             <div className="flex items-center justify-between gap-[16px]">
               {
@@ -156,7 +156,6 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
           </div>
         </div>
       </div >
-
     </>
   );
 };

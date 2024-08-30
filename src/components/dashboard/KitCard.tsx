@@ -24,7 +24,7 @@ const KitCard = ({ item }: KitCardProps) => {
     <div className="flex gap-[8px] justify-between items-center">
       {/* kit description */}
       <div className="flex gap-[16px]">
-        <div className="w-[84px] h-[84px] rounded-[12px] flex items-center justify-center">
+        <div className="w-[84px] h-[84px] rounded-[12px] flex items-center justify-center overflow-hidden">
           <Image
             src={item.icon}
             alt="kit"

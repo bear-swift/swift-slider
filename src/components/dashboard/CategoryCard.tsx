@@ -55,7 +55,7 @@ const CategoryCard = ({
 
         <div className="flex justify-between w-full">
           <div className="h-[17px] border border-my-orange rounded-full text-[10px] text-my-orange px-[10px]">
-            {`${item.kitCount} kits available`}
+            {`${item.kitCount} kit available`}
           </div>
 
           <Button

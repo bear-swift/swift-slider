@@ -84,7 +84,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="p-[16px] flex flex-col gap-[16px] bg-white">
+      <div className="p-[16px] flex flex-col gap-[16px]">
         <div className="flex gap-[8px] items-center">
           <Image
             src="/images/icons/notepad.png"

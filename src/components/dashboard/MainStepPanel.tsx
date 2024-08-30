@@ -9,7 +9,7 @@ const MainStepPanel = () => {
   if (!currentStep) return null;
 
   const substepcount = currentStep.steps.length + (currentStep.additionalContent && currentStep.additionalContent.length > 0 ? 1 : 0);
-  const position: string = substepcount === 0 ? '' : `(${(currentSubStepIndex + 1)}/${substepcount})`;
+  const position: string = substepcount <= 1 ? '' : `(${(currentSubStepIndex + 1)}/${substepcount})`;
 
   const additionalStep: SubStep | null = currentStep?.additionalContent ? {
     title: '',

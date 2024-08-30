@@ -4,9 +4,7 @@ import KitCard from "@/components/dashboard/KitCard";
 import { KIT_LIST } from "@/constants/kit";
 import { OutlinedInput } from "@mui/material";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { FormatTitle } from "@/utils";
-
 interface CategoryPageParams {
   params: {
     category: string;

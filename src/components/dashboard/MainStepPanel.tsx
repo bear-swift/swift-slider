@@ -1,47 +1,28 @@
 import { Step, SubStep } from "@/types/instruction";
-import { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-} from "@mui/material";
-import { KeyboardArrowDownRounded } from "@mui/icons-material";
-import StepContentItem from "./StepContentItem";
+import { useContext, useEffect, useState } from "react";
 import SubStepSlider from "./SubStepSlider";
+import { KitContext, } from "@/providers/KitProvider";
 
-interface MainStepPanelProps {
-  currentStep: Step;
-  currentSubStepIndex: number;
-}
+const MainStepPanel = () => {
+  const { currentProject, currentProjectDetail, loadProject, currentStepIndex, currentSubStepIndex } = useContext(KitContext);
+  const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
+  if (!currentStep) return null;
 
+  const substepcount = currentStep.steps.length + (currentStep.additionalContent && currentStep.additionalContent.length > 0 ? 1 : 0);
+  const position: string = substepcount === 0 ? '' : `(${(currentSubStepIndex + 1)}/${substepcount})`;
 
-const MainStepPanel = (props: MainStepPanelProps) => {
-  const { currentStep, currentSubStepIndex } = props;
-  // const [currentSubStepIndex, setCurrentSubStepIndex] = useState<number>(0);
-  const substepcount = currentStep.steps.length;
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const position: string = substepcount === 0 ? '' : `(${(currentIndex + 1)}/${substepcount})`;
+  const additionalStep: SubStep | null = currentStep?.additionalContent ? {
+    title: '',
+    elements: currentStep?.additionalContent
+  } : null;
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [currentStep])
-
-  const sliderPositionChanged = (pos: number) => {
-    setCurrentIndex(pos);
-  }
+  const totalStep = additionalStep ? currentStep?.steps.concat([additionalStep]) : currentStep?.steps;
 
   return (
     <>
-      <div className="text-[18px] font-bold pb-[20px]">{`${currentStep.title} ${position}`}</div>
+      <div className="text-[18px] font-bold pb-[20px]">{`${currentStep?.title} ${position}`}</div>
       {/* sub steps */}
-      <SubStepSlider steps={currentStep.steps} onChange={sliderPositionChanged} />
-
-      {/* additional contents */}
-      {currentStep.additionalContent &&
-        currentStep.additionalContent.map((item, index) => (
-          <StepContentItem item={item} key={index} />
-        ))}
-
+      <SubStepSlider steps={totalStep || []} />
     </>
   );
 };

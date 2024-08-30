@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import { PROJECT_LIST } from "@/constants/project";
 import ProjectCard from "@/components/dashboard/ProjectCard";
 import { useState } from "react";
@@ -16,7 +15,6 @@ interface KitPageParams {
 
 const KitPage = ({ params }: KitPageParams) => {
   const { category, kit } = params;
-
   const title = FormatTitle(kit);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);

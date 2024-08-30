@@ -55,7 +55,7 @@ const SideBar = () => {
   const [activatedIndex, setActiveIndex] = useState<number>(0);
 
   const onLogoutClicked = () => {
-    console.log("log out clicked");
+    
   };
 
   const onMenuClicked = (item: MenuType, index: number) => {

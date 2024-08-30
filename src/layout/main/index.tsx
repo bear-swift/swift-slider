@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
 import SideBar from "./sidebar";
 import MainHeader from "./header";
+import KitContextProvider from "@/providers/KitProvider";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <>
+    <KitContextProvider>
+
+
       <div className="fixed left-[20px] top-[8px] w-[185px]">
         <SideBar />
       </div>
@@ -17,7 +20,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
           <div className="rounded-[16px] overflow-hidden">{children}</div>
         </div>
       </div>
-    </>
+    </KitContextProvider>
   );
 };
 

@@ -2,17 +2,11 @@
 
 import TimeLineMainStepList from "@/components/dashboard/TimeLineMainStepList";
 import MainStepPanel from "@/components/dashboard/MainStepPanel";
-import { INSTRUCTION_LIST } from "@/constants/instruction";
-import { PROJECT_LIST } from "@/constants/project";
-import { IProjectItem } from "@/types";
-import { IProjectDetail, Step } from "@/types/instruction";
-
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, Button, Checkbox, FormControlLabel, IconButton, Snackbar, styled } from "@mui/material";
 import CongratulationModal from "@/components/Modals/Congrantulation";
-import { DotShadowRoundedContainer } from "@/components";
-import SeeFullCodeModal from "@/components/Modals/SeeFullCode";
+import { KitContext } from "@/providers/KitProvider";
 interface ProjectPageParams {
   params: {
     category: string;
@@ -55,22 +49,15 @@ const ReviewCourseCard = () => {
   )
 }
 
+const LeftPanel = () => {
+  const { currentProject: project, currentProjectDetail: detail, loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
 
-const LeftPanel = ({
-  project,
-  detail,
-  currentStep,
-}: {
-  project: IProjectItem;
-  detail: IProjectDetail;
-  currentStep: number;
-}) => {
   return (
     <div className="w-[300px] min-w-[300px] flex flex-col gap-[16px] p-[16px] rounded-[12px] h-full bg-white " >
       <div className="border border-my-[#DDDDDD] rounded-[12px] p-[8px] flex flex-col gap-[16px]">
         {/* image */}
         <div className="rounded-[12px] h-[200px] min-h-[200px] overflow-hidden items-center justify-center" style={{
-          background: `url(${project.image}) center center / cover no-repeat`
+          background: `url(${project?.image}) center center / cover no-repeat`
         }}>
         </div>
 
@@ -87,7 +74,7 @@ const LeftPanel = ({
       }}>
         <TimeLineMainStepList
           titles={detail?.steps.map((pr) => pr.title) || []}
-          currentStep={currentStep}
+          currentStep={currentStepIndex}
         />
       </div>
       {/* help panel */}
@@ -104,88 +91,42 @@ const LeftPanel = ({
     </div>
   );
 };
-
-const ErrorMessage = ({ show, onClose }: { show: boolean, onClose: () => void }) => {
-  return (
-    <Snackbar
-      open={show}
-      autoHideDuration={6000}
-      onClose={onClose}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-    >
-      <Alert onClose={onClose} severity="warning" sx={{ width: '100%' }}>
-        Please mark the kit as completed before closing.
-      </Alert>
-    </Snackbar>
-  )
-}
-
 const ProjectPage = ({ params }: ProjectPageParams) => {
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(2);
-  const [seeFullCode, setSeeFullCode] = useState<boolean>(false);
   const [isKitCompleted, setIsKitCompleted] = useState<boolean>(false);
-  const [showError, setShowError] = useState<boolean>(false);
-
   const { category, kit, project: projectid } = params;
+  const { goToNextSubStep, goToPrevSubStep, seeFullCode, loadProject, isLastStepInProject, showError, completeProject } = useContext(KitContext);
 
-  const project: IProjectItem = PROJECT_LIST.findLast(
-    (pr) => pr.id === projectid,
-  )!;
+  useEffect(() => {
+    loadProject(projectid);
+  }, []);
 
-  const projectdetail: IProjectDetail = INSTRUCTION_LIST.findLast(
-    (pr) => pr.projectid === projectid,
-  )!;
-
-  const currentStep: Step = projectdetail.steps[currentStepIndex];
-  const stepcount = projectdetail.steps.length;
-  const isLastStep: boolean = currentStepIndex === projectdetail.steps.length - 1;
-  const isFirstStep: boolean = currentStepIndex === 0;
-
-  const onNextClicked = () => {
-    if (currentStepIndex + 1 < stepcount)
-      setCurrentStepIndex(currentStepIndex + 1);
-    if (isLastStep) {
+  const onNext = () => {
+    if (isLastStepInProject) {
       if (!isKitCompleted) {
-        setShowError(true);
-        return;
+        showError();
       } else {
-
+        completeProject();
       }
+    }else{
+      goToNextSubStep();
     }
-  };
-
-  const onPrevClicked = () => {
-    if (currentStepIndex > 0)
-      setCurrentStepIndex(currentStepIndex - 1);
-  };
+  }
 
   return (
     <>
       <div className="flex gap-[32px]" style={{ height: 'calc(100vh - 80px)' }}>
-        <LeftPanel
-          project={project}
-          detail={projectdetail}
-          currentStep={currentStepIndex}
-        />
+        <LeftPanel />
         <div className="relative h-full flex-grow">
           <div className="flex-grow h-full overflow-auto bg-white w-full p-[16px]">
-            <MainStepPanel
-              currentStep={currentStep}
-              currentSubStepIndex={2}
-            />
-          </div >
+            <MainStepPanel />
+          </div>
+
           <div className="absolute bottom-0 left-0 w-full bg-white px-[16px] py-[4px] z-[3]">
             {
-              isLastStep &&
+              isLastStepInProject &&
               <FormControlLabel
                 control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
                 label="Mark the kit as completed"
-                sx={{
-                  color: showError ? '#FA467D' : 'inherit',
-                  '& .MuiCheckbox-root': {
-                    color: showError ? '#FA467D' : 'inherit',
-                  },
-                }}
               />
             }
 
@@ -194,7 +135,7 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
               <Button
                 variant="outlined"
                 className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
-                onClick={() => setSeeFullCode(true)}
+                onClick={seeFullCode}
               >
                 {`See full Code`}
               </Button>
@@ -202,26 +143,24 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
                 <Button
                   variant="contained"
                   className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                  onClick={onPrevClicked}
+                  onClick={goToPrevSubStep}
                 >
-                  {isFirstStep ? `Prev Project` : `Prev Step`}
+                  {`Prev Step`}
                 </Button>
               }
 
               <Button
                 variant="contained"
                 className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                onClick={onNextClicked}
+                onClick={onNext}
               >
-                {isLastStep ? `Next Project` : `Next Step`}
+                {isLastStepInProject ? `Complete Project` : `Next Step`}
               </Button>
             </div>
           </div>
         </div>
       </div >
 
-      <SeeFullCodeModal visible={seeFullCode} onClose={() => setSeeFullCode(false)} code={projectdetail.fullcode} />
-      <ErrorMessage show={showError} onClose={() => setShowError(false)} />
     </>
   );
 };

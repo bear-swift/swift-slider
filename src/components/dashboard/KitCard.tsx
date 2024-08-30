@@ -6,18 +6,23 @@ import Image from "next/image";
 import KitProgress from "./KitProgress";
 import { Button } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { KitContext } from "@/providers/KitProvider";
 
 interface KitCardProps {
   item: IKitItem;
 }
 const KitCard = ({ item }: KitCardProps) => {
+  const { completedProjectIds } = useContext(KitContext);
+
+  console.log(completedProjectIds);
+
   const pathname = usePathname();
   const router = useRouter();
   const onDetailsClicked = () => {
     router.push(`${pathname}/${item.title.replaceAll(" ", "-")}`);
   };
-  
+
   return (
     <div className="grid grid-cols-2 gap-[32px]">
       <div className="flex justify-between gap-[32px]">
@@ -54,7 +59,7 @@ const KitCard = ({ item }: KitCardProps) => {
             <div className="font-bold text-[16px]">Progress</div>
             <KitProgress
               percent={
-                (100 * item.finishedProjectCount) / item.totalProjectCount
+                (100 * Math.min(completedProjectIds.length, item.totalProjectCount)) / item.totalProjectCount
               }
             />
           </div>

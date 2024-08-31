@@ -4,16 +4,16 @@ import { Button } from "@mui/material";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import LevelItem from "./LevelItem";
+import { useKitContext } from "@/providers/KitProvider";
 interface ProjectCardProps {
   item: IProjectItem;
   selected: boolean;
   onClick: () => void;
 }
 const ProjectCard = ({ item, selected, onClick }: ProjectCardProps) => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const { navigateToProject } = useKitContext();
   const onStartClicked = async () => {
-    router.push(`${pathname}/${item.id.replaceAll(" ", "-")}`);
+    navigateToProject(item);
   };
   return (
     <DotShadowRoundedContainer activeColor={`#F4961D`} animate={true}>

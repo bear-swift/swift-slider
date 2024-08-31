@@ -1,10 +1,9 @@
 import { Step, SubStep } from "@/types/instruction";
-import { useContext, useEffect, useState } from "react";
 import SubStepSlider from "./SubStepSlider";
-import { KitContext, } from "@/providers/KitProvider";
+import { useKitContext } from "@/providers/KitProvider";
 
 const MainStepPanel = () => {
-  const { currentProjectDetail, startProject: loadProject, currentStepIndex, currentSubStepIndex } = useContext(KitContext);
+  const { currentProjectDetail, startProject: loadProject, currentStepIndex, currentSubStepIndex } = useKitContext();
   const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
   if (!currentStep) return null;
 

@@ -3,19 +3,16 @@
 import { SubStep } from "@/types/instruction";
 import Slider, { Settings } from "react-slick";
 import StepContentItem from "./StepContentItem";
-import { useContext, useEffect, useRef, useState } from "react";
-import DotShadowRoundedContainer from "../DotShadow";
-import { KitContext } from "@/providers/KitProvider";
+import { useEffect, useRef } from "react";
 import { Button } from "@mui/material";
+import { useKitContext } from "@/providers/KitProvider";
 
 interface SubStepSliderProps {
   steps: SubStep[],
 }
 
-type TPosition = "first" | 'mid' | "last" | 'alone';
-
 const SubStepItem = ({ step, index }: { step: SubStep, index: number }) => {
-  const { goToNextSubStep, goToPrevSubStep, currentSubStepIndex } = useContext(KitContext);
+  const { goToNextSubStep, goToPrevSubStep, currentSubStepIndex } = useKitContext();
   const isActive = currentSubStepIndex === index;
   return (
     // <div className="py-[40px] 2xl:min-w-[700px] 2xl:max-w-[800px] xl:min-w-[300px] xl:max-w-[400px] lg:min-w-[300px] lg:max-w-[360px] w-[240px] mx-auto">
@@ -59,7 +56,7 @@ const SubStepItem = ({ step, index }: { step: SubStep, index: number }) => {
 
 const SubStepSlider = (props: SubStepSliderProps) => {
   const { steps } = props;
-  const { currentSubStepIndex, setCurrentSubStepIndex } = useContext(KitContext);
+  const { currentSubStepIndex, setCurrentSubStepIndex } = useKitContext();
   const sliderRef = useRef<Slider | null>(null);
 
   const settings = {

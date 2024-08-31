@@ -1,5 +1,7 @@
 import SuggestKitModal from "./SuggestKit";
 import WelcomeModal from "./Welcome";
-import ImagePopup from "./ImagePopup";
+import ImagePopupModal from "./ImagePopup";
+import CompleteKitModal from "./CompleteKit";
+import SeeFullCodeModal from "./SeeFullCode";
 
-export { SuggestKitModal, WelcomeModal, ImagePopup };
+export { SuggestKitModal, WelcomeModal, ImagePopupModal, CompleteKitModal, SeeFullCodeModal };

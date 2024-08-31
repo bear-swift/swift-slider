@@ -3,10 +3,10 @@
 import TimeLineMainStepList from "@/components/dashboard/TimeLineMainStepList";
 import MainStepPanel from "@/components/dashboard/MainStepPanel";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import { Alert, Button, Checkbox, FormControlLabel, IconButton, Snackbar, styled } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Button, IconButton, styled } from "@mui/material";
 import CongratulationModal from "@/components/Modals/Congrantulation";
-import { KitContext } from "@/providers/KitProvider";
+import { useKitContext } from "@/providers/KitProvider";
 interface ProjectPageParams {
   params: {
     category: string;
@@ -50,7 +50,7 @@ const ReviewCourseCard = () => {
 }
 
 const LeftPanel = () => {
-  const { currentProject: project, currentProjectDetail: detail, startProject: loadProject, currentStepIndex: currentStepIndex, currentSubStepIndex: currentSubStep } = useContext(KitContext);
+  const { currentProject: project, currentProjectDetail: detail, currentStepIndex: currentStepIndex } = useKitContext();
 
   return (
     <div className="w-[280px] min-w-[280px] flex flex-col gap-[16px] rounded-[12px] h-full overflow-hidden" >
@@ -93,27 +93,25 @@ const LeftPanel = () => {
 };
 
 const ProjectPage = ({ params }: ProjectPageParams) => {
-  const [isKitCompleted, setIsKitCompleted] = useState<boolean>(false);
   const { category, kit, project: projectid } = params;
-  const { goToNextSubStep, goToPrevSubStep, seeFullCode, startProject: loadProject, isLastStepInProject, isLastProject, showError, completeProject } = useContext(KitContext);
+  const { goToNextSubStep, showSeeFullCode, startProject, isLastStepInProject, isLastProject, completeProject, showCompleteKit, currentProject } = useKitContext();
 
   useEffect(() => {
-    loadProject(projectid);
+    startProject(projectid);
   }, []);
 
   const onNext = () => {
     if (isLastStepInProject()) {
-      if (isLastProject()) {
-        if (!isKitCompleted) {
-          showError();
-          return;
-        }
-      }
-      completeProject();
+      if (isLastProject())
+        showCompleteKit();
+      else
+        completeProject();
     } else {
       goToNextSubStep();
     }
   }
+
+  if (!currentProject) return null;
 
   return (
     <>
@@ -125,33 +123,24 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
           </div>
           <div className="absolute bottom-0 left-0 w-full px-[16px] py-[4px] z-[3]">
             {/* button groups */}
-            <div className="flex items-center justify-between gap-[16px]">
+            <div className="flex items-center justify-end gap-[16px]">
+              <Button
+                variant="outlined"
+                className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
+                onClick={showSeeFullCode}
+              >
+                {`See full Code`}
+              </Button>
               {
-                isLastStepInProject() && isLastProject() ?
-                  <FormControlLabel
-                    control={<Checkbox checked={isKitCompleted} onChange={(e) => setIsKitCompleted(e.target.checked)} />}
-                    label="Mark the kit as completed"
-                  /> : <div></div>
-              }
-              <div className="flex items-center justify-end gap-[16px]">
+                isLastStepInProject() &&
                 <Button
-                  variant="outlined"
-                  className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
-                  onClick={seeFullCode}
+                  variant="contained"
+                  className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
+                  onClick={onNext}
                 >
-                  {`See full Code`}
+                  {isLastProject() ? `Complete Kit` : `Complete Project`}
                 </Button>
-                {
-                  isLastStepInProject() &&
-                  <Button
-                    variant="contained"
-                    className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                    onClick={onNext}
-                  >
-                    {isLastProject() ? `Close Kit` : `Complete Project`}
-                  </Button>
-                }
-              </div>
+              }
             </div>
           </div>
         </div>

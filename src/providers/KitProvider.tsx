@@ -1,28 +1,31 @@
 'use client'
 
-import { ImagePopup } from "@/components/Modals";
-import SeeFullCodeModal from "@/components/Modals/SeeFullCode";
+import { CompleteKitModal, ImagePopupModal, SeeFullCodeModal } from "@/components/Modals";
 import { DefaultKitContext } from "@/constants";
 import { INSTRUCTION_LIST } from "@/constants/instruction";
 import { PROJECT_LIST } from "@/constants/project";
 import { endSession, startSession } from "@/store/project";
-import { IKitItem, IProjectItem, KitContextType } from "@/types";
+import { ICategoryItem, IKitItem, IProjectItem, KitContextType } from "@/types";
 import { IProjectDetail, Step } from "@/types/instruction";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 export const KitContext = createContext<KitContextType>(DefaultKitContext);
 
 const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
+
   const [kit, setKit] = useState<IKitItem | null>(null);
+  const [category, setCategory] = useState<ICategoryItem | null>(null);
   const [currentProject, setCurrentProject] = useState<IProjectItem | null>(null);
   const [currentProjectDetail, setCurrentProjectDetail] = useState<IProjectDetail | null>(null);
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(2);
-  const [currentSubStepIndex, setCurrentSubStepIndex] = useState<number>(5);
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
+  const [currentSubStepIndex, setCurrentSubStepIndex] = useState<number>(0);
+
   const [seeFullCodeFlag, setSeeFullCodeFlag] = useState<boolean>(false);
-  const [showErrorFlag, setShowErrorFlag] = useState<boolean>(false);
+  const [completeKitFlag, setCompleteKitFlag] = useState<boolean>(false);
+
   const [completedProjectIds, setCompletedProjectIds] = useState<string[]>([]);
   const [showImageFlag, setShowImageFlag] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -52,6 +55,29 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const completeKit = () => {
+    setCompletedProjectIds(PROJECT_LIST.map(p => p.id));
+    navigateToDashBoard();
+  }
+
+  const navigateToProject = (p: IProjectItem) => {
+    if (!p) navigateToDashBoard();
+
+    router.push(`/dashboard/${p.category.replaceAll(" ", "-")}/${p.kit.replaceAll(" ", "-")}/${p.id}`);
+  }
+
+  const navigateToKit = (k: IKitItem) => {
+    if (!k) navigateToDashBoard();
+
+    router.push(`/dashboard/${k.category.replaceAll(" ", "-")}/${k.title.replaceAll(" ", "-")}`);
+  }
+
+  const navigateToCategory = (c: ICategoryItem) => {
+    if (!c) navigateToDashBoard();
+
+    router.push(`/dashboard/${c.title.replaceAll(" ", "-")}`);
+  }
+
+  const navigateToDashBoard = () => {
     router.push('/dashboard');
   }
 
@@ -62,38 +88,43 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       setCompletedProjectIds([...completedProjectIds, currentProjectDetail.id]);
     const currentProjectIndex = PROJECT_LIST.indexOf(currentProject);
     const nextProjectIndex = currentProjectIndex + 1;
-    
+
     //ending project or kit
     await endSession();
 
     if (nextProjectIndex >= PROJECT_LIST.length)
       completeKit();
     else {
-      const pid = PROJECT_LIST[nextProjectIndex].id;
-      startProject(pid);
+      const newProject = PROJECT_LIST[nextProjectIndex];
+      navigateToProject(newProject);
     }
   }
 
   const startProject = async (pid: string) => {
     const newProject = PROJECT_LIST.filter(p => p.id === pid)[0];
-    const newProjectDetail = INSTRUCTION_LIST.filter(p => p.projectid === pid)[0];
-    setCurrentProject(newProject);
-    setCurrentProjectDetail(newProjectDetail);
+    if (!newProject) {
+      setCurrentProject(null);
+      setCurrentProjectDetail(null);
+    } else {
+      const newProjectDetail = INSTRUCTION_LIST.filter(p => p.projectid === pid)[0];
+      setCurrentProject(newProject);
+      setCurrentProjectDetail(newProjectDetail);
 
-    startSession(newProject.title);
+      startSession(newProject.title);
+    }
 
     setCurrentStepIndex(0);
     setCurrentSubStepIndex(0);
   }
 
-  const seeFullCode = () => {
-    setSeeFullCodeFlag(true);
-  }
+  const showSeeFullCode = () => setSeeFullCodeFlag(true);
+  const showCompleteKit = () => setCompleteKitFlag(true);
 
   const moveToStep = (index: number) => {
     setCurrentStepIndex(index);
     setCurrentSubStepIndex(0);
   }
+
   const goToPrevSubStep = () => {
     if (!currentStep || !currentProjectDetail) return;
 
@@ -116,7 +147,7 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const goToNextSubStep = () => {
     if (!currentStep || !currentProjectDetail) return;
     const newSubStepIndex = currentSubStepIndex + 1;
-    
+
     if (newSubStepIndex < substepcount) {
       setCurrentSubStepIndex(newSubStepIndex); // go to next substep
     } else {
@@ -134,23 +165,18 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <KitContext.Provider value={{
-      kit, currentProject, currentStepIndex, currentSubStepIndex, currentProjectDetail,
-      loadKit, startProject: startProject, seeFullCode,
-      goToPrevSubStep, goToNextSubStep,
-      moveToStep,
-      setCurrentSubStepIndex,
-      showError: () => setShowErrorFlag(true),
-      showImage: showImage,
-      completeKit,
-      completeProject,
-      isLastStepInProject,
-      isLastProject,
-      completedProjectIds
+      category, kit, currentProject, currentStepIndex, currentSubStepIndex, currentProjectDetail, completedProjectIds,
+      navigateToCategory, navigateToKit, navigateToProject,
+      loadKit, startProject,
+      goToPrevSubStep, goToNextSubStep, moveToStep, setCurrentSubStepIndex,
+      showImage, showCompleteKit, showSeeFullCode,
+      completeKit, completeProject,
+      isLastStepInProject, isLastProject,
     }}>
       {children}
       <SeeFullCodeModal visible={seeFullCodeFlag} onClose={() => setSeeFullCodeFlag(false)} code={currentProjectDetail?.fullcode || ''} />
-      <ErrorMessage show={showErrorFlag} onClose={() => setShowErrorFlag(false)} />
-      <ImagePopup open={showImageFlag} onClose={() => setShowImageFlag(false)} image={imageUrl} />
+      <ImagePopupModal open={showImageFlag} onClose={() => setShowImageFlag(false)} image={imageUrl} />
+      <CompleteKitModal visible={completeKitFlag} onClose={() => setCompleteKitFlag(false)} />
     </KitContext.Provider>
   )
 }
@@ -169,5 +195,15 @@ const ErrorMessage = ({ show, onClose }: { show: boolean, onClose: () => void })
     </Snackbar>
   )
 }
+
+// Create a custom hook for consuming the menu context
+export const useKitContext = (): KitContextType => {
+  const context = useContext(KitContext);
+  if (!context) {
+    throw new Error("useMenuContext must be used within a MenuProvider");
+  }
+  return context;
+};
+
 
 export default KitContextProvider;

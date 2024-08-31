@@ -6,18 +6,15 @@ import Image from "next/image";
 import KitProgress from "./KitProgress";
 import { Button } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import { KitContext } from "@/providers/KitProvider";
+import { useKitContext } from "@/providers/KitProvider";
 
 interface KitCardProps {
   item: IKitItem;
 }
 const KitCard = ({ item }: KitCardProps) => {
-  const { completedProjectIds } = useContext(KitContext);
-  const pathname = usePathname();
-  const router = useRouter();
+  const { completedProjectIds, navigateToKit } = useKitContext();
   const onDetailsClicked = () => {
-    router.push(`${pathname}/${item.title.replaceAll(" ", "-")}`);
+    navigateToKit(item);
   };
 
   return (

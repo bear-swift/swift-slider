@@ -13,7 +13,7 @@ interface ImagePopupProps {
   onClose: () => void
 }
 
-const ImagePopup = (props: ImagePopupProps) => {
+const ImagePopupModal = (props: ImagePopupProps) => {
   const { image, open, onClose } = props;
 
   return (
@@ -35,4 +35,4 @@ const ImagePopup = (props: ImagePopupProps) => {
   )
 }
 
-export default ImagePopup
+export default ImagePopupModal

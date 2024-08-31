@@ -3,6 +3,7 @@ import DotShadowRoundedContainer from "../DotShadow";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useKitContext } from "@/providers/KitProvider";
 
 const CategoryCard = ({
   item,
@@ -11,10 +12,9 @@ const CategoryCard = ({
   item: ICategoryItem;
   selected: boolean;
 }) => {
-  const router = useRouter();
-
+  const { navigateToCategory } = useKitContext();
   const onDetailsClicked = () => {
-    router.push(`/dashboard/${item.title.replaceAll(" ", "-")}`);
+    navigateToCategory(item);
   };
 
   return (

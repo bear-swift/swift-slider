@@ -1,7 +1,6 @@
-import Image from "next/image";
 import ModalLayout from "./ModalLayout";
-import DotShadowRoundedContainer from "../DotShadow";
-import { Button, OutlinedInput } from "@mui/material";
+import { Button } from "@mui/material";
+import { useKitContext } from "@/providers/KitProvider";
 
 interface CompleteKitModalProps {
   visible: boolean;
@@ -10,45 +9,32 @@ interface CompleteKitModalProps {
 
 const CompleteKitModal = (props: CompleteKitModalProps) => {
   const { visible, onClose } = props;
+  const { completeKit } = useKitContext();
+
+  const onOkClicked = () => {
+    onClose();
+    completeKit();
+  }
+
   return (
     <ModalLayout visible={visible} onClose={onClose}>
-      <div className="flex bg-white p-[40px] gap-[48px] items-center rounded-[20px]">
-        <Image
-          src={`/images/characters/suggest-kit.png`}
-          alt="character"
-          width={255}
-          height={279}
-          sizes="100vw"
-        />
+      <div className="flex flex-col bg-white p-[40px] gap-[20px] text-center max-w-[400px]">
+        <div className="text-[18px] font-bold">
+          {`Congratulations!`}
+        </div>
 
-        <DotShadowRoundedContainer activeColor="#F4961D" animate={false}>
-          <div className="p-[24px] flex flex-col gap-[12px] bg-[#FEF4E8]">
-            <div className="text-my-blue font-cathy-melody text-[20px]">
-              {"Have a project idea in mind?"}
-            </div>
-
-            <div>{"We’d love to hear it, submit your idea here!"}</div>
-
-            <OutlinedInput
-              minRows={3}
-              maxRows={3}
-              multiline
-              fullWidth
-              placeholder={"Type your idea"}
-              className="!rounded-[12px] !text-[14px] !px-[16px] !py-[8px] !bg-white"
-            />
-
-            <div>
-              <Button
-                variant="contained"
-                className="!bg-my-orange !rounded-full"
-                onClick={onClose}
-              >
-                <span className="font-cathy-melody"> {"Submit"}</span>
-              </Button>
-            </div>
-          </div>
-        </DotShadowRoundedContainer>
+        <div>
+          {`You completed your kit and you eraned this many points. Please reach out to your parenet so they can approve your points which will get added to your account.`}
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            className="!bg-my-orange !rounded-full"
+            onClick={onOkClicked}
+          >
+            <span className="font-cathy-melody"> {"Ok"}</span>
+          </Button>
+        </div>
       </div>
     </ModalLayout>
   );

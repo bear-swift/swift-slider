@@ -33,10 +33,10 @@ const CompleteKitModal = (props: CompleteKitModalProps) => {
         <DotShadowRoundedContainer activeColor="#F4961D" animate={false}>
           <div className="p-[24px] flex flex-col gap-[12px] bg-[#FEF4E8]">
             <div className="text-my-blue font-cathy-melody text-[20px]">
-              {"Congratulations you completed your kit and you earned this many points!"}
+              {"Congratulations!"}
             </div>
 
-            <div>{`Please reach out to your pareent so they can approve your points which will get added to your account`}</div>
+            <div>{`You completed your kit and you earned this many points. Please reach out to your pareent so they can approve your points which will get added to your account`}</div>
 
             <div className="flex items-center justify-end">
               <Button

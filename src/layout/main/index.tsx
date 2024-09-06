@@ -28,7 +28,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
             <div className="sticky top-0 py-[8px] z-[3] bg-[#F9F9F9]">
               <MainHeader />
             </div>
-            <div className="rounded-[16px] overflow-hidden">{children}</div>
+            <div className="overflow-hidden">{children}</div>
           </div>
         </div>
       </KitContextProvider>

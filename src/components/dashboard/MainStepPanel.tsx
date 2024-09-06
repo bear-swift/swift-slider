@@ -19,7 +19,6 @@ const MainStepPanel = () => {
 
   return (
     <>
-      <div className="text-[18px] font-bold pb-[20px]">{`${currentStep?.title} ${position}`}</div>
       {/* sub steps */}
       <SubStepSlider steps={totalStep || []} key={currentStepIndex} />
     </>

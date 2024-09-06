@@ -117,32 +117,8 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
     <>
       <div className="flex gap-[32px]" style={{ height: 'calc(100vh - 80px)' }}>
         <LeftPanel />
-        <div className="relative h-full flex-grow">
-          <div className="flex-grow h-full overflow-auto w-full p-[16px]">
-            <MainStepPanel />
-          </div>
-          <div className="absolute bottom-0 left-0 w-full px-[16px] py-[4px] z-[3]">
-            {/* button groups */}
-            <div className="flex items-center justify-end gap-[16px]">
-              <Button
-                variant="outlined"
-                className={`!text-[#365ca7] !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none !border-[#365ca7]`}
-                onClick={showSeeFullCode}
-              >
-                {`See full Code`}
-              </Button>
-              {
-                isLastStepInProject() &&
-                <Button
-                  variant="contained"
-                  className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[40px] !shadow-none`}
-                  onClick={onNext}
-                >
-                  {isLastProject() ? `Complete Kit` : `Complete Project`}
-                </Button>
-              }
-            </div>
-          </div>
+        <div className="relative h-full overflow-auto px-[20px]">
+          <MainStepPanel />
         </div>
       </div >
     </>

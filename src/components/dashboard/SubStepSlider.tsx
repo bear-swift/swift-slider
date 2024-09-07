@@ -1,9 +1,7 @@
 'use client'
 
 import { SubStep } from "@/types/instruction";
-import Slider, { Settings } from "react-slick";
 import StepContentItem from "./StepContentItem";
-import { useEffect, useRef } from "react";
 import { Button } from "@mui/material";
 import { useKitContext } from "@/providers/KitProvider";
 
@@ -20,32 +18,36 @@ const SubStepItem = ({ step, index }: { step: SubStep, index: number }) => {
         step.title &&
         <div className="font-medium text-[16px]">{step.title}</div>
       }
-      <div>
-        {
-          step.elements.map((item, index) => (
-            <StepContentItem item={item} key={index} />
-          ))
-        }
-      </div>
+
       {
         isActive &&
-        <div className="flex items-center justify-end gap-[16px] flex-wrap">
-          <Button
-            variant="contained"
-            className={`!text-white !font-cathy-melody !text-[16px] !rounded-full !h-[30px] !shadow-none`}
-            onClick={goToPrevSubStep}
-          >
-            {`Prev`}
-          </Button>
+        <>
+          <div>
+            {
+              step.elements.map((item, index) => (
+                <StepContentItem item={item} key={index} />
+              ))
+            }
+          </div>
 
-          <Button
-            variant="contained"
-            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[30px] !shadow-none`}
-            onClick={goToNextSubStep}
-          >
-            {`Next`}
-          </Button>
-        </div>
+          <div className="flex items-center justify-end gap-[16px] flex-wrap">
+            <Button
+              variant="contained"
+              className={`!text-white !font-cathy-melody !text-[16px] !rounded-full !h-[30px] !shadow-none`}
+              onClick={goToPrevSubStep}
+            >
+              {`Prev`}
+            </Button>
+
+            <Button
+              variant="contained"
+              className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[30px] !shadow-none`}
+              onClick={goToNextSubStep}
+            >
+              {`Next`}
+            </Button>
+          </div>
+        </>
       }
     </div>
   )
@@ -53,64 +55,84 @@ const SubStepItem = ({ step, index }: { step: SubStep, index: number }) => {
 
 const SubStepSlider = (props: SubStepSliderProps) => {
   const { steps } = props;
-  const { currentSubStepIndex, setCurrentSubStepIndex } = useKitContext();
-  const sliderRef = useRef<Slider | null>(null);
-
-  const settings = {
-    className: "center",
-    centerMode: true,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    // infinite: false,
-
-    slidesToShow: 2,
-    centerPadding: "140px",
-
-    responsive: [
-      {
-        breakpoint: 1920,
-        settings: {
-          centerPadding: "80px",
-        }
-      },
-      {
-        breakpoint: 1680,
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "200px",
-        }
-      },
-      {
-        breakpoint: 1440,
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "130px",
-        }
-      },
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "100px",
-        }
-      },
-    ],
-    beforeChange: (current: number, next: number) => {
-      setCurrentSubStepIndex(next);
-    }
-  };
-
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(currentSubStepIndex);
-    }
-  }, [currentSubStepIndex, sliderRef.current]);
+  const { currentSubStepIndex } = useKitContext();
+  const substepcount = steps.length;
 
   return (
     <div className="mx-auto">
       {
-        steps.map((step, index) =>
-          <SubStepItem step={step} key={index} index={index} />
+        steps.map((step, index) => {
+          const linecolor = index < currentSubStepIndex ? '#F4961D' : '#B3B3B3';
+
+          return (
+            <div className="relative flex justify-between gap-[16px] overflow-hidden">
+              {
+                substepcount > 1 &&
+                <div className="relative flex h-[46px] items-center z-[2]">
+                  <div
+                    className={`rounded-full min-w-[18px] min-h-[18px] w-[18px] h-[18px] flex items-center justify-center border bg-white`}
+                    style={{ borderColor: linecolor }}
+                  >
+                    <div
+                      className={`rounded-full w-[10px] h-[10px]`} style={{ backgroundColor: linecolor }}
+                    ></div>
+                  </div>
+                </div>
+              }
+
+              <div className="flex-grow">
+                <SubStepItem step={step} key={index} index={index} />
+              </div>
+
+              {index < currentSubStepIndex && (
+                <>
+                  {index !== 0 && (
+                    <div
+                      className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1] translate-y-[-100%]`}
+                      style={{ borderColor: linecolor }}
+                    ></div>
+                  )}
+                  <div
+                    className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1]`}
+                    style={{ borderColor: linecolor }}
+                  ></div>
+                </>
+              )}
+
+              {currentSubStepIndex === index && substepcount !== 1 && (
+                <>
+                  {index !== 0 && (
+                    <div
+                      className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1] translate-y-[-100%]`}
+                      style={{ borderColor: linecolor }}
+                    ></div>
+                  )}
+                  {index !== substepcount - 1 && (
+                    <div
+                      className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1]`}
+                      style={{ borderColor: linecolor }}
+                    ></div>
+                  )}
+                </>
+              )}
+
+              {index > currentSubStepIndex && (
+                <>
+                  <div
+                    className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1] translate-y-[-100%]`}
+                    style={{ borderColor: linecolor }}
+                  ></div>
+                  {index !== substepcount - 1 && (
+                    <div
+                      className={`absolute top-[27px] left-[8px] w-[1px] h-full border border-dashed z-[1]`}
+                      style={{ borderColor: linecolor }}
+                    ></div>
+                  )}
+                </>
+              )}
+            </div>
+          )
+        }
         )
       }
     </div>

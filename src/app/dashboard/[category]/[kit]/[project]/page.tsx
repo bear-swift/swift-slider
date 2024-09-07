@@ -3,10 +3,11 @@
 import TimeLineMainStepList from "@/components/dashboard/TimeLineMainStepList";
 import MainStepPanel from "@/components/dashboard/MainStepPanel";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, IconButton, styled } from "@mui/material";
 import CongratulationModal from "@/components/Modals/Congrantulation";
 import { useKitContext } from "@/providers/KitProvider";
+import { Step } from "@/types/instruction";
 interface ProjectPageParams {
   params: {
     category: string;
@@ -94,31 +95,36 @@ const LeftPanel = () => {
 
 const ProjectPage = ({ params }: ProjectPageParams) => {
   const { category, kit, project: projectid } = params;
-  const { goToNextSubStep, showSeeFullCode, startProject, isLastStepInProject, isLastProject, completeProject, showCompleteKit, currentProject } = useKitContext();
+  const { startProject, currentProject, currentSubStepIndex } = useKitContext();
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const { currentProjectDetail, currentStepIndex } = useKitContext();
+  const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
 
   useEffect(() => {
     startProject(projectid);
   }, []);
 
-  const onNext = () => {
-    if (isLastStepInProject()) {
-      if (isLastProject())
-        showCompleteKit();
-      else
-        completeProject();
-    } else {
-      goToNextSubStep();
-    }
-  }
+  useEffect(() => {
+    if (scrollRef.current)
+      scrollRef.current.scrollTop = 46 * currentSubStepIndex;
+  }, [currentSubStepIndex]);
 
   if (!currentProject) return null;
 
   return (
     <>
       <div className="flex gap-[32px]" style={{ height: 'calc(100vh - 80px)' }}>
-        <LeftPanel />
-        <div className="relative h-full overflow-auto px-[20px]">
-          <MainStepPanel />
+
+        <div className="w-2/5 h-full flex flex-col">
+          <div className="font-bold text-[18px] text-[#2c72ff]">{currentStep?.title}</div>
+
+          <div className="relative flex-grow overflow-auto px-[20px]" ref={scrollRef}>
+            <MainStepPanel />
+          </div>
+        </div>
+
+        <div className="w-3/5">
+
         </div>
       </div >
     </>

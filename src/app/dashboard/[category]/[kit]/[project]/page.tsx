@@ -4,7 +4,7 @@ import TimeLineMainStepList from "@/components/dashboard/TimeLineMainStepList";
 import MainStepPanel from "@/components/dashboard/MainStepPanel";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Button, IconButton, styled } from "@mui/material";
+import { Button, Divider, IconButton, styled } from "@mui/material";
 import CongratulationModal from "@/components/Modals/Congrantulation";
 import { useKitContext } from "@/providers/KitProvider";
 import { Step } from "@/types/instruction";
@@ -122,9 +122,11 @@ const ProjectPage = ({ params }: ProjectPageParams) => {
             <MainStepPanel />
           </div>
         </div>
+        
+        <Divider orientation="vertical"/>
 
         <div className="w-3/5">
-
+          <iframe src="https://snack.expo.dev/7Wh95KpstGsXitbFTL6Fe" className="w-full h-full"></iframe>
         </div>
       </div >
     </>

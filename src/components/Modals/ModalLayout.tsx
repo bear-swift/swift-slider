@@ -25,12 +25,13 @@ const ModalLayout = ({
         "& .MuiDialog-paper": {
           maxWidth: "fit-content",
           borderRadius: "20px",
+          background: 'transparent'
         },
         "& .MuiBackdrop-root": {
           background: "transparent",
         },
         backgroundColor: `rgba(0, 0, 0, 0.1)`,
-        backdropFilter: "blur(5px)",
+        backdropFilter: "blur(10px)",
         zIndex: zIndex,
       }}
     >

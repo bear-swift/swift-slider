@@ -12,24 +12,32 @@ interface KitContextType {
   currentSubStepIndex: number,
   completedProjectIds: string[],
 
-  navigateToProject: (p:IProjectItem) => void, 
-  navigateToKit: (k:IKitItem) => void,
-  navigateToCategory: (c:ICategoryItem) => void,
+  navigateToProject: (p: IProjectItem) => void,
+  navigateToKit: (k: IKitItem) => void,
+  navigateToCategory: (c: ICategoryItem) => void,
 
   isLastProject: () => boolean,
   isLastStepInProject: () => boolean,
+  isLastSubStep: () => boolean,
+
   completeKit: () => void,
-  completeProject: () => void,
-  
-  showCompleteKit: () => void,
-  showImage: (url: string) => void,
-  showSeeFullCode: () => void
+  completeProject: (completeProject?: boolean) => void,
+
+  showCompleteKitModal: () => void,
+  showImageModal: (url: string) => void,
+  showSeeFullCodeModal: () => void
+  showCompleteSectionModal: () => void,
+  showCompleteProjectModal: () => void,
+
+  showInstFlag: boolean,
+  showInstruction: () => void,
+  closeInstruction: () => void,
 
   moveToStep: (id: number) => void,
   setCurrentSubStepIndex: (id: number) => void,
   goToNextSubStep: () => void,
   goToPrevSubStep: () => void,
-  
+
   loadKit: (kid: string) => Promise<void>,
   startProject: (pid: string) => Promise<void>,
 }

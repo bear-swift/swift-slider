@@ -1,12 +1,14 @@
 'use client'
 
 import { CompleteKitModal, ImagePopupModal, SeeFullCodeModal } from "@/components/Modals";
+import CompleteProjectModal from "@/components/Modals/CompleteProject";
+import CompleteSectionModal from "@/components/Modals/CompleteSection";
 import { DefaultKitContext } from "@/constants";
 import { INSTRUCTION_LIST } from "@/constants/instruction";
 import { PROJECT_LIST } from "@/constants/project";
 import { endSession, startSession } from "@/store/project";
 import { ICategoryItem, IKitItem, IProjectItem, KitContextType } from "@/types";
-import { IProjectDetail, Step } from "@/types/instruction";
+import { IProjectDetail, Step, SubStep } from "@/types/instruction";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useContext, useState } from "react";
@@ -25,29 +27,40 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
 
   const [seeFullCodeFlag, setSeeFullCodeFlag] = useState<boolean>(false);
   const [completeKitFlag, setCompleteKitFlag] = useState<boolean>(false);
+  const [completeSectionFlag, setCompleteSectionFlag] = useState<boolean>(false);
+  const [completeProjectFlag, setCompleteProjectFlag] = useState<boolean>(false);
 
   const [completedProjectIds, setCompletedProjectIds] = useState<string[]>([]);
   const [showImageFlag, setShowImageFlag] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [showInstFlag, setShowInstFlag] = useState<boolean>(false);
 
   const stepcount = currentProjectDetail?.steps.length || 0;
   const currentStep: Step | undefined = currentProjectDetail?.steps[currentStepIndex];
   const substepcount = currentStep ? currentStep.steps.length + (currentStep.additionalContent && currentStep.additionalContent.length > 0 ? 1 : 0) : 0;
 
-  const showImage = (image: string) => {
+  const showImageModal = (image: string) => {
     setImageUrl(image);
     setShowImageFlag(true);
   }
 
-  const isLastProject = () => {
+  const isLastProject = (): boolean => {
     if (!currentProject) return false;
 
     const index = PROJECT_LIST.indexOf(currentProject);
     return (index === PROJECT_LIST.length - 1);
   }
 
-  const isLastStepInProject = () => {
+  const isLastStepInProject = (): boolean => {
     return (currentStepIndex === (stepcount - 1)) && (currentSubStepIndex === (substepcount - 1) || substepcount === 0);
+  }
+
+  const isLastSubStep = (): boolean => {
+    if (substepcount === 1) {
+      return !Boolean(currentStep?.additionalContent);
+    } else {
+      return currentSubStepIndex === substepcount - 1;
+    }
   }
 
   const loadKit = async (kid: string) => {
@@ -57,6 +70,26 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
   const completeKit = () => {
     setCompletedProjectIds(PROJECT_LIST.map(p => p.id));
     navigateToDashBoard();
+  }
+
+  const completeProject = async (toDashboard: boolean = false) => {
+    if (!currentProjectDetail || !currentProject) return;
+
+    if (!completedProjectIds.includes(currentProjectDetail.id))
+      setCompletedProjectIds([...completedProjectIds, currentProjectDetail.id]);
+    const currentProjectIndex = PROJECT_LIST.indexOf(currentProject);
+    const nextProjectIndex = currentProjectIndex + 1;
+
+    //ending project or kit
+    await endSession();
+
+    if (nextProjectIndex >= PROJECT_LIST.length)
+      completeKit();
+    else {
+      const newProject = PROJECT_LIST[nextProjectIndex];
+      if (!toDashboard) navigateToProject(newProject);
+      else navigateToDashBoard();
+    }
   }
 
   const navigateToProject = (p: IProjectItem) => {
@@ -81,27 +114,9 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
     router.push('/dashboard');
   }
 
-  const completeProject = async () => {
-    if (!currentProjectDetail || !currentProject) return;
-
-    if (!completedProjectIds.includes(currentProjectDetail.id))
-      setCompletedProjectIds([...completedProjectIds, currentProjectDetail.id]);
-    const currentProjectIndex = PROJECT_LIST.indexOf(currentProject);
-    const nextProjectIndex = currentProjectIndex + 1;
-
-    //ending project or kit
-    await endSession();
-
-    if (nextProjectIndex >= PROJECT_LIST.length)
-      completeKit();
-    else {
-      const newProject = PROJECT_LIST[nextProjectIndex];
-      navigateToProject(newProject);
-    }
-  }
-
   const startProject = async (pid: string) => {
     const newProject = PROJECT_LIST.filter(p => p.id === pid)[0];
+
     if (!newProject) {
       setCurrentProject(null);
       setCurrentProjectDetail(null);
@@ -117,8 +132,13 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
     setCurrentSubStepIndex(0);
   }
 
-  const showSeeFullCode = () => setSeeFullCodeFlag(true);
-  const showCompleteKit = () => setCompleteKitFlag(true);
+  const showSeeFullCodeModal = () => setSeeFullCodeFlag(true);
+  const showCompleteKitModal = () => setCompleteKitFlag(true);
+  const showCompleteSectionModal = () => setCompleteSectionFlag(true);
+  const showCompleteProjectModal = () => setCompleteProjectFlag(true);
+
+  const showInstruction = () => setShowInstFlag(true);
+  const closeInstruction = () => setShowInstFlag(false);
 
   const moveToStep = (index: number) => {
     setCurrentStepIndex(index);
@@ -169,14 +189,17 @@ const KitContextProvider = ({ children }: { children: ReactNode }) => {
       navigateToCategory, navigateToKit, navigateToProject,
       loadKit, startProject,
       goToPrevSubStep, goToNextSubStep, moveToStep, setCurrentSubStepIndex,
-      showImage, showCompleteKit, showSeeFullCode,
+      showImageModal, showCompleteKitModal, showSeeFullCodeModal, showCompleteSectionModal, showCompleteProjectModal,
+      showInstFlag, showInstruction, closeInstruction,
       completeKit, completeProject,
-      isLastStepInProject, isLastProject,
+      isLastStepInProject, isLastProject, isLastSubStep
     }}>
       {children}
       <SeeFullCodeModal visible={seeFullCodeFlag} onClose={() => setSeeFullCodeFlag(false)} code={currentProjectDetail?.fullcode || ''} />
       <ImagePopupModal open={showImageFlag} onClose={() => setShowImageFlag(false)} image={imageUrl} />
       <CompleteKitModal visible={completeKitFlag} onClose={() => setCompleteKitFlag(false)} />
+      <CompleteSectionModal visible={completeSectionFlag} onClose={() => setCompleteSectionFlag(false)} title={currentStep?.title || ''} />
+      <CompleteProjectModal visible={completeProjectFlag} onClose={() => setCompleteProjectFlag(false)} />
     </KitContext.Provider>
   )
 }

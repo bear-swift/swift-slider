@@ -1,0 +1,9 @@
+.timeline {
+  width: 0;
+  background-color: #F4961D;
+  transition: width 3s;
+}
+
+.timeline.completing {
+  width: 100%;
+}

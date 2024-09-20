@@ -12,24 +12,9 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
           {
             type: "text",
             content:
-              "This project is broken down into sections with each section teaching you an essential coding component. Follow each step in order and add code in the editor from top to bottom.",
-          },
-          {
-            type: "text",
-            content:
-              "We will be using the Xcode to help us build our app in this project. Xcode is like a special app that helps you create your own apps and games for iPhones, iPads, Macs, and Apple Watches. Imagine you have a big toolbox full of everything you need to build something cool, like a game or an app. Xcode is that toolbox!",
-          },
-
-          {
-            type: "text",
-            content:
-              "Remember if you see an error do not panic! Keep coding and the errors will go away as you complete each step. At the end of the project if you have any errors, revisit the section of code again to make sure you followed the instructions and have the code on the correct line, or head to our Community Support Facebook page on the left on the screen to ask a question (or finally you can ask a parent for help!).",
-          },
-          {
-            type: "text",
-            content:
-              "As you work through your project you will notice this symbol in the code, **//**. This is called a comment. Any words or numbers on the line after these two marks are not included in the code and allow you to add notes directly into your code. This is common practice by coders, so they can remember what each section of code does. Feel free to use this throughout your code to add notes or anything you want to remember!",
-          },
+              `This project is broken down into sections with each section teaching an essential coding component. You will create a simple app where you can mix colors using sliders (Red, Green, and Blue). Each slider will adjust a color channel, and the combined result will be shown in a square. **If you face any issues please ask a parent/guardian for help and they can visit our Help Section for Assistance**.
+At the end of the project we will show you how to share your app with your friends and family. **Happy Coding!**.`
+          }                  
         ],
       },
       {
@@ -39,20 +24,20 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
         additionalContent: [
           {
             type: "text",
-            content: "- Sliders",
+            content: "**State Management:** The useState hook manages the RGB values (from 0 to 255).",
           },
           {
             type: "text",
-            content: "- State Management",
+            content: "**Color Preview:** A View element is styled with a dynamic backgroundColor, which updates based on the slider values.",
           },
           {
             type: "text",
-            content: `- Color Manipulation`,
+            content: `**Slider Component:** SliderView is a reusable component that displays a slider for adjusting each color channel (red, green, blue). The Slider component is from the @react-native-community/slider package`,
           },
         ],
       },
       {
-        title: "Section 1: Setting Up Our Project",
+        title: "Section 1 Phone And Tablet Setup (Optional)",
         steps: [
           {
             title: "Overview",
@@ -60,125 +45,45 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "In Section 1, we will be setting up the code for our project!",
+                 "**You need to have access to a tablet or phone to complete Section 1. If you don’t have access to a tablet or phone, continue onto Section 2**"
               },
             ],
           },
           {
-            title: "Step 1: Getting Started",
+            title: "Step 1: Download And Install the  Expo Go App",
             elements: [
               {
                 type: "text",
-                content: `1.Lets find our ColorMixer App on our Desktop so we can launch Xcode. Make sure you have a folder on your desktop called ColorMixerApp and click on it to open it.`,
+                content: `**To see your coding changes in real time, you’ll need an app called Expo Go.**
+**If you haven’t already, ask an adult to help you download the "Expo Go" app from the App Store or Google Play Store.**
+**Make sure you have permission from an adult to use the device for your coding sessions**.`
               },
               {
                 type: "image",
-                content: "/images/instructions/colormixerdesktop.png",
-              },
-              {
-                type: "text",
-                content: `2. Once the folder comes up find the file ColorMixerAppx.xcodeproj(usually the second file in the folder) and click on it`,
-              },
-              {
-                type: "image",
-                content: "/images/instructions/colormixerproj.png",
-              },
-              {
-                type: "text",
-                content: `3. Once Xcode launches you can ignore the popup just Click Cancel`,
-              },
-              {
-                type: "text",
-                content: `4. Make sure you are in the ContentView file which you will find on the left side of the screen. This is where we are going to make our coding changes`,
-              },
-              {
-                type: "image",
-                content: "/images/instructions/contentviewfile.png",
-              },
-              {
-                type: "text",
-                content: ` **Important Note**: We will be using **line numbers** in our project. Line numbers show up in Xcode on the left side of the coding editor see image below. Please make sure you copy each piece of code to the correct line number.`,
-              },
-              {
-                type: "image",
-                content: "/images/instructions/LineNumbersScreenShot.png",
-              },
+                content: "/images/instructions/expogoimage.png",
+              }
             ],
           },
           {
-            title: "Step 2: Adding Our Content View",
+            title: "Step 2: Seeing The Changes",
             elements: [
               {
                 type: "text",
                 content:
-                  "Once Xcode is opened place your cursor on **line 1** and press enter until you see **line 66** appear. Make sure you are on **line 66**, then copy and paste the code below. You can ignore the errors we will fix it later",
-              },
-              {
-                type: "code",
-                content: `}\n     #Preview{\n        ContentView()\n    }`,
-                copyRequired: true,
-              },
-              { type: "image", content: "" },
-              {
-                type: "text",
-                content: "Here is what your sceen should look like in Xcode.",
+                  `**Let's set up our device so we can preview our code changes as we build our app.**
+**In the coding platform to the right of your screen click the my device tab.  If you have an Android Device Scan the QR code using the Expo GO App.**
+**If you have an IOS Device use the Camera app to scan the QR code. The Expo GO app should launch and you will see a Red popup. Dont worry we will fix this. See the video below if you get stuck.**`
               },
               {
                 type: "image",
-                content: "/images/instructions/Section1-Step1.png",
+                content: "",
               },
             ],
-          },
-          {
-            title: "Step 3: Line 1 Setup",
-            elements: [
-              {
-                type: "text",
-                content:
-                  "Go back to the top of the screen and on **line 1**, copy the code below over into XCode",
-              },
-              {
-                type: "code",
-                content: `import SwiftUI\nstruct ContentView: View {\n    @State private var red: Double = 0.5\n    @State private var green: Double = 0.5\n    var body: some View {\n        VStack {\n            Text("")\n                .font(.largeTitle)\n                .padding()`,
-                copyRequired: true,
-              },
-            ],
-          },
-          {
-            title: "Step 3: Add Game Title",
-            elements: [
-              {
-                type: "text",
-                content: `Find the words **Text(\"\")** on **line 7** and within the quotation mark type the words "Color Mixer". When you are finished **line 7** should now look like this below.`,
-              },
-              {
-                type: "code",
-                content: 'Text("Color Mixer")',
-              },
-            ],
-          },
-          {
-            title: "Step 4: Declare Variable for Blue Color",
-            elements: [
-              {
-                type: "text",
-                content: `After ** Line 4 ** press enter to move to ** Line 5 ** so we can  declare a new variable. Make sure you are on ** Line 5 ** and type the words "@State private var blue: Double = 0.5". **Line 5** should now look like this`,
-              },
-              {
-                type: "code",
-                content: "@State private var blue: Double = 0.5",
-              },
-              {
-                type: "text",
-                content:
-                  "Adding this piece of code will help you declare a variable for the color blue that you will use later on in your project. Using **@State annotation** with a **variable** lets SwiftUI know that this variable value will need to be updated within our code. SwiftUI automatically refreshes the **view** to reflect the updated state when it changes.",
-              },
-            ],
-          },
+          }
         ],
       },
       {
-        title: "Section 2: Add a Rectangle to Display the Color",
+        title: "Section 2: Getting Started With The App",
         steps: [
           {
             title: "Overview",
@@ -186,65 +91,158 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "In this section, you will create a rectangle that will display the color option that you select on the slider.",
+                  "In this section we will write our first code for the color mixer app",
               },
             ],
           },
           {
-            title: "Step 1: Add Rectangle",
+            title: "Step 1:  What Is App.js ?",
             elements: [
               {
                 type: "text",
                 content:
-                  "Look for the **line 10** and press enter so we can add a new line so we can copy and paste some code to **line 11**.",
-              },
-              {
-                type: "text",
-                content:
-                  "Make sure now you are on **line 11** and and copy and paste the following code. Dont worry about the errors we will fix them later.",
-              },
-              {
-                type: "code",
-                content: `()\n.fill(Color(red: red, green: green, blue: blue))\n.frame()\n.cornerRadius(10)\n.padding()`,
-                copyRequired: true,
+                `In a React or React Native project, the app.js file is the main entry point of your application. It includes the main component that will be rendered when the app starts.`
               },
             ],
           },
           {
-            title: "Step 2: Complete Rectangle",
+            title: "Step 2: Finding The App.Js File",
             elements: [
               {
                 type: "text",
-                content: `In order to create the rectangle, find **line 11** and before the **()** type the word "Rectangle". So now your code on **line 11** should look like`,
-              },
-              {
-                type: "code",
-                content: "Rectangle()",
+                content:
+                `Find the app.js file on the left hand side. This file is where we will make all of our coding changes.
+In the middle of the screen is our coding platform, this is where all of the code lives! As you can see there is already code on our screen! This piece of code sets up the coding platform, and creates the variables that we need for the app. We are defining our main method that is responsible for showing us the app on the screen.`
               },
             ],
           },
           {
-            title: "Step 3: Determine Size of the Rectangle",
+            title: "Step 3: What Are Line Numbers?",
             elements: [
               {
                 type: "text",
-                content: `Next you need to determine the size of the rectangle. Find **line 13**. Got it? On **line 13**, you will see a **.frame()**. Within the parentheses, type the words: width: 200, height: 200. **Line 13** should now look like this`,
+                content:
+                `Throughout the project you will see references to Line numbers (ex. “Line 1”). These Line numbers refer to each Line and show up on the left side of the code. Please make sure you copy each piece of code to the correct Line number.`
               },
+            ],
+          },
+          {
+            title: "Step 4: Seeing The Changes in Different Views",
+            elements: [
               {
-                type: "code",
-                content: ".frame(width: 200, height: 200)",
+                type: "text",
+                content:
+                `If you did not set up your own device using a phone or a tablet in Section 1, you can see your changes using the Android, IOS or Web Preview. You can select them using the tabs on the far right side of the screen in the coding platform. Feel Free to select the view that you are the most comfortable with.`
+              },
+            ],
+          },
+          {
+            title: "Step 5: Lets Initialize A Variable",
+            elements: [
+              {
+                type: "text",
+                content:
+                `On **Line 5**, find the word **TWEEK_ME**. Change **TWEEK_ME** to the number **128*. This initializes our variable to have a value set to 128. The error should be gone and you should see a blank screen after the app loads.`
               },
               {
                 type: "text",
                 content:
-                  "If you want your rectangle to be bigger you can increase the number, if you want your rectangle to be smaller you can decrease the number.",
+                `After typing the number 128 **Line 5** should look like this`
+              },
+              {
+                type: "code",
+                content:
+                `const [red, setRed] = useState(128);`
               },
             ],
           },
+          {
+            title: "Step 6: What Is A Variable And useState?",
+            elements: [
+              {
+                type: "text",
+                content:
+                  `The code in the previous step defined one of the **variables** for the Color Mixer App. The purpose of the **useState function** is to set the value for the variable. A **variable** is used to hold information so we can reuse it again within the code in many places.  The variables here are red, green, and blue. They are declared as a constant so their values cannot be overwritten.`
+              },
+            ],
+          },
+          {
+            title: "Step 7: Add Your Name to The App",
+            elements: [
+              {
+                type: "text",
+                content:
+                  `On **Line 8**, find the word **TWEEK_ME**. Change **TWEEK_ME** to your name inside the  "   ". Make sure you add your name in between the quotes. This will make your name show up on the app, so others know who made it!`
+              },
+            ],
+          },
+          {
+            title: "Step 8:  Lets Setup the Color Mixer App",
+            elements: [
+              {
+                type: "text",
+                content: `Click at the end of **Line 27**  and press enter to create a new line.  You should now be on  **Line 28**. Copy and paste the following code to **Line 28**.
+ An error will appear in your code, because SliderView is not defined in the code yet. This will be fixed later on in the code.`,
+              },
+              {
+                type: "code",
+                content: `return( \n <View style={styles.container}> \n  <Text style={styles.title}>TWEEK_ME</Text>\n <View \n style={[\n  styles.colorPreview,\n{` +
+                "backgroundColor: `rgb(${red}, ${green}, ${blue})`," + `\n  }, \n  ]} /> 
+{/* Red Slider */}
+<SliderView value={red} onValueChange={setRed} colorName="Red" /> \n {/* Green Slider */} \n\n{/* Blue Slider */} \n<SliderView value={blue} onValueChange={setBlue} colorName="Blue" />
+<View style={styles.footerText}>\n <Text style={styles.footerText}>App created by {studentName} on {new Date().toLocaleDateString()}</Text>
+</View>
+</View>
+);`,
+copyRequired: true,
+              },
+              {
+                type: "text",
+                content: `This section of code gives information to the SliderView the value of the color slider, the updated value when you change it to a different color, and  the label of the color slider.`,
+              },
+            ],
+          },
+          {
+            title: "Step 9: : Add The Title For Our App",
+            elements: [
+              {
+                type: "text",
+                content: `On **Line 30**, find the word **TWEEK_ME**. Change **TWEEK_ME** to the words **Color Mixer**.`,
+              },
+              {
+                type: "text",
+                content: `After typing Color Mixer, **Line 30** should look like this`
+              },
+              {
+                type: "code",
+                content: "<Text style={styles.title}>Color Mixer</Text>",
+              }
+            ],
+          },
+          {
+            title: "Step 10: :  Center The Title for The App",
+            elements: [
+              {
+                type: "text",
+                content: `On **Line 73**, find the word **TWEEK_ME** . Change the word  **TWEEK_ME** inside the ' '  to the word **center** `,
+              },
+              {
+                type: "text",
+                content: `After typing the word **center**, **Line 73** should look like this`
+              },
+              {
+                type: "code",
+                content: "alignItems: 'center',",
+              },
+              
+            ],
+          },
+          
         ],
+        
       },
       {
-        title: "Section 3: Create the Color Sliders",
+        title: "Section 3: Adding The Sliders",
         steps: [
           {
             title: "Overview",
@@ -257,59 +255,93 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
             ],
           },
           {
-            title: "Step 1: Add Slider Code",
+            title: "Step 1: Add the Slider Code",
             elements: [
               {
                 type: "text",
                 content:
-                  "Find **line 15** and press enter to begin a new line. Lets copy and paste some code starting at **line 16**.",
+                  `Click on the end of **Line 49** and press enter to move to a new Line. You should now be on **Line 50**.Copy and paste the following code to **Line 50**`,
+              },
+              {
+                type: "code",
+                content: `function TWEEK_ME({ value, onValueChange, colorName }) {
+   TWEEK_ME (
+    <View style={styles.sliderContainer}>
+      <Text style={{ color: colorName.toLowerCase() }}>
+        {colorName}: {value}
+      </Text>
+      <Slider
+        style={{ width: 200, height: 40 }}
+        minimumValue={0}
+        maximumValue={255}
+        value={value}
+        onValueChange={(val) => onValueChange(Math.floor(val))}
+        minimumTrackTintColor={colorName.toLowerCase()}
+      />
+    </View>
+  );
+}`,
+          copyRequired: true,
               },
               {
                 type: "text",
                 content:
-                  " Make sure you are on  **line 16** . Now copy and paste the following code to **line 16**. You should see the Color Mixer App displayed on the right side of your screen in the preview section.",
-              },
-              {
-                type: "code",
-                content: `VStack {\n    //SliderView(value: $red, textColor: .red)\n    //SliderView(value: $green, textColor: .green)\n}\n.padding()\n}\n}`,
-                copyRequired: true,
+                  `**This set of code contains the information about how the sliders will be displayed on the screen. Like in previous steps an error will show up in the code, but as we continue with our steps it will get resolved.**`,
               },
             ],
           },
           {
-            title: "Step 2: Add Slider for Blue",
+            title: "Step 2: Add the Function Name",
             elements: [
               {
                 type: "text",
                 content:
-                  "Look at the **lines 17 and 18**. These two lines will create the sliders for the colors red and green.",
-              },
-              {
-                type: "code",
-                content: `VStack {\n    //SliderView(value: $red, textColor: .red)\n    //SliderView(value: $green, textColor: .green)`,
+                  "On **Line 50**, find the word **TWEEK_ME**. Change the word  **TWEEK_ME** to the word **SliderView**",
               },
               {
                 type: "text",
                 content:
-                  'Next click on **line 18** and press enter to move to **line 19**. On this line you are going to create a slider for the color blue.  Make sure you are on **line 19** and type the words "//SliderView(value: $blue, textColor: .blue)". **Line 19** should look like this now.',
+                  'After typing the word SliderView **Line 50** should now look like this ',
               },
               {
                 type: "code",
-                content: "//SliderView(value: $blue, textColor: .blue)",
+                content: `function SliderView({ value, onValueChange, colorName })`,
+              }              
+            ],
+          },
+          {
+            title: "Step 3: : Add a Return Method",
+            elements: [
+              {
+                type: "text",
+                content: `On **Line 51**,  find the word **TWEEK_ME** . Change the word **TWEEK_ME** to the word **return**`,
               },
+              {
+                type: "text",
+                content: `After typing the word **Return** .**Line 51**, should now look like this`
+              },
+              {
+                type: "code",
+                content: `return(`,
+              },   
+            ],
+          },
+          {
+            title: "Step 3: : What is the return Keyword? ",
+            elements: [
+              {
+              type: "text",
+                content:
+                  `In **React Native**, the return keyword is used to return JSX, which defines the UI for that component that is displayed on the screen by React Native`
+              },        
             ],
           },
         ],
         additionalContent: [
-          {
-            type: "funFact",
-            content: ` Did you notice the difference between our two variables in our SliderView. One as a $ and the other begins with a period.
-         So, when you use SliderView(value: $red, textColor: .red), you're telling the SliderView to control the red value with the slider and display any text in red color!`,
-          },
         ],
       },
       {
-        title: "Section 4: Coding Check-In",
+        title: "Quick-Check In",
         steps: [
           {
             title: "Step 1: Code Check",
@@ -317,26 +349,22 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "For your code, here is what you should have so far! Again if you still have errors, that’s ok! Just make sure to have the key coding components from Section 1-3 in your code!.If you get stuck and still have an error after this step, please visit the **Help Section** on the left side of your screen to reach out to us for support!",
-              },
-              {
-                type: "code",
-                content: `import SwiftUI\nstruct ContentView: View {\n    @State private var red: Double = 0.5\n    @State private var green: Double = 0.5\n    @State private var blue: Double = 0.5\n    var body: some View {\n        VStack {\n            Text("Color Mixer")\n                .font(.largeTitle)\n                .padding()\n            Rectangle()\n                .fill(Color(red: red, green: green, blue: blue))\n                .frame(width: 200, height: 200)\n                .cornerRadius(10)\n                .padding()\n            VStack {\n                //SliderView(value: $red, textColor: .red)\n                //SliderView(value: $green, textColor: .green)\n                //SliderView(value: $blue, textColor: .blue)\n            }\n            .padding()\n        }\n    }`,
+                  "For the code, here is what you should have so far! Again if you still have errors, that’s ok! Just make sure to have the key coding components from Sections 2-3 in your code!.If you get stuck and still have an error after this step, please visit the **Help Section** on the left side of your screen to reach out to us for support!",
               },
               {
                 type: "text",
-                content: "Your code should look like this in Xcode",
+                content: "Your code should look like this in the Coding Platform",
               },
               {
                 type: "image",
-                content: "/images/instructions/checkincolormixer.png",
+                content: "/images/instructions/quickcheckin.png",
               },
             ],
           },
         ],
       },
       {
-        title: "Section 5: Adding Text to the Color Sliders",
+        title: "Section 4: Building It Out",
         steps: [
           {
             title: "Overview",
@@ -344,77 +372,59 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "In this section, you will add a title to the color sliders with the name of the color and the number value for the color selected.",
+                  "In this section, you will create a slider and customize some sliders.",
               },
             ],
           },
           {
-            title: "Step 1: Add SliderView Struct",
+            title: "Step 1 - Add A Green Slider ",
             elements: [
               {
                 type: "text",
-                content: "Copy over the code below to **Line 24**",
+                content: "Click on the end of **Line 39**  and press enter to move to a new Line . You should now be  on **Line 40**. Copy and paste the following code to **Line 40**.",
               },
               {
                 type: "code",
-                content: `struct SliderView: View {\n    @Binding var value:\n    var textColor: Color\n    var body: some View {\n        \n            Text("\\(textColor.description.capitalized): \\(Int(value * ))")\n                .foregroundColor(textColor)\n            Slider(value: $value)\n                .accentColor(textColor)\n        }\n        .padding()\n    }\n}`,
+                content: `<SliderView value={green} onValueChange={Tweek_ME} colorName="Green" />`,
                 copyRequired: true,
               },
             ],
           },
           {
-            title: "Step 2: Add Double Type for Binding Variable",
+            title: "Step 2: Updating The Value For Green Slider When It Changes",
             elements: [
               {
                 type: "text",
-                content: `Next, we are going to use a **Binding variable** to hold the slider value. The binding property on a variable is used when you want to pass data from a parent view to a child view and allow the child view to modify that data. On **line 25**, after the words "@Binding var value:" type the word Double. **Line 25** should look like this now`,
+                content: `On **Line 40**, find the word **TWEEK_ME**. Change the word  **TWEEK_ME** to the word **setGreen**`,
+              },
+              {
+                type: "text",
+                content: "After typing the word setGreen **Line 40** should look like this below",
               },
               {
                 type: "code",
-                content: `@Binding var value: Double`,
+                content: `<SliderView value={green} onValueChange={setGreen} colorName="Green" />`,
                 copyRequired: true,
               },
-            ],
-          },
-          {
-            title: "Step 3: Organize Sliders",
-            elements: [
+              {
+                type: "text",
+                content: "Now when the value is changed on the Slider for green, the setGreen method is called with the updated value. ",
+              },
               {
                 type: "text",
                 content:
-                  'Next we need to make sure that the title of the color sliders are organized into a column. In order to do that, on **Line 28**, type the word "VStack {" . Make sure you also include the "{" at the end. ** Line 28 should look like this now**',
-              },
-              {
-                type: "code",
-                content: `VStack {`,
-              },
-            ],
-          },
-          {
-            title: "Step 4: Complete Color Slider",
-            elements: [
-              {
-                type: "text",
-                content: `Last you need to finish the line of code for **Line 29** that will assign a value to the different colors on the color slider. On **Line 29** you will see "(value *  ) within the parentheses" and after the "*"" type the number 255. **Line 29 ** should look like this now `,
-              },
-              {
-                type: "code",
-                content:
-                  'Text("\\(textColor.description.capitalized): \\(Int(value * 255))")',
+                `Congrats on finishing the **Color Mixer App**! Make sure to test out the Color Mixer App to make sure it is working properly.
+               If you are stuck or you think you missed something please ask an adult to reach out to us in the help section or view the full code and compare it with yours.`
+               
               },
             ],
           },
         ],
         additionalContent: [
-          {
-            type: "funFact",
-            content:
-              "Why the number 255?  Since color values in many contexts are between 0 and 255, this scales the value to that range.",
-          },
         ],
       },
       {
-        title: "Section 6:Running Our Code",
+        title: "Section 5: Up For a Challenge?",
         steps: [
           {
             title: "Overview",
@@ -422,68 +432,37 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "In this section, we will remove comments and run our code.",
+               "Now lets do a small challenge and customize the app and make it your own!"
+               
               },
             ],
           },
           {
-            title: "Step 1: Locate Commented Lines",
+            title: "Challenge 1: Change the Title Text",
             elements: [
               {
                 type: "text",
                 content:
-                  "When you run your code, your project might still be coming up with errors or the app may not be looking like it should—and that’s ok! The last step before the app is done is to go back through and remove any comments we added to our code. This way all of our code will run together and it should get rid of any errors your project has.",
+                  `Change the title from **Color Mixer** to something else like **My Color App"** or any fun title you can think of`,
               },
-              {
-                type: "text",
-                content: `Find **lines 17, 18, and 19**. Got it? You will notice each of these lines start with a **//**. This is a comment! Coders use comments to add notes to their code and when we run our app the code on these lines are ignored. Go ahead and delete just the **//** from all three of your lines. All three lines should look like this now`,
-              },
+              
             ],
           },
           {
-            title: "Step 2: Remove Comments",
-            elements: [
-              {
-                type: "code",
-                content: `SliderView(value: $red, textColor: .red)\nSliderView(value: $green, textColor: .green)\nSliderView(value: $blue, textColor: .blue)`,
-              },
-              {
-                type: "text",
-                content:
-                  "You will also notice that when you remove the comments here your code changes color, this means this line of code is actively running in your program!",
-              },
-            ],
-          },
-          {
-            title: "Lets do a Small Challenge",
+            title: "First Hint",
             elements: [
               {
                 type: "text",
-                content:
-                  "Now that we got all of our code and we ran it let’s explore how we can customize our Color Mixer! ",
+                content: `If you are stuck, review Section 2 again where we added our title for the app!`,
               },
-              {
-                type: "text",
-                content:
-                  "Earlier in the project we added code to create a **Rectangle** that will display to us the colors when we mix them together. What could you change about your code to make this a circle instead? ",
-              },
-            ],
-          },
-          {
-            title: "Here is a Hint",
-            elements: [
-              {
-                type: "text",
-                content: `If stuck, review Section 2 again!`,
-              },
-            ],
+            ]
           },
           {
             title: "Second Hint",
             elements: [
               {
                 type: "text",
-                content: `If still stuck, look at **line 11**`,
+                content: `If still stuck, look at **line 30**`,
               },
             ],
           },
@@ -493,66 +472,179 @@ export const INSTRUCTION_LIST: IProjectDetail[] = [
               {
                 type: "text",
                 content:
-                  "Below is what your code should now look like on **line 11**",
+                  "You can replace the words **Color Mixer** in the code below on **Line 30**with a new title for the app",
               },
               {
                 type: "code",
-                content: "Circle()",
-              },
+                content: "<Text style={styles.title}>ColorMixer/Text>",
+              }
+            ],
+          },
+          {
+            title: "Challenge 2: Set New Default Colors For the Colox Mixer Box",
+            elements: [
               {
                 type: "text",
                 content:
-                  "Did you notice how the rectangle in our preview section changed to a circle? Run you code again and see if anything changed. The colors should still be similar as when we had our rectangle there",
+                  `Lets change the default color from gray to a fun color like red or any other color.`,
+              },    
+              
+            ],
+          },
+          {
+            title: "First Hint",
+            elements: [
+              {
+                type: "text",
+                content: `Modify the initial values for red, green, and blue in the useState hook.`,
               },
+            ]
+          },
+          {
+            title: "Second Hint",
+            elements: [
+              {
+                type: "text",
+                content: `Look at **Line Numbers 5, 6, and 7**. Try changing the first value to a number between 1-255 and the other two to 0.`,
+              },
+            ]
+          },
+          {
+            title: "Here is the Solution to Our Challenge",
+            elements: [
+              {
+                type: "text",
+                content:
+                  "We update **Line 5**  to a number value between 1-255. Start with red and feel free to change to another number",
+              },
+              {
+                type: "code",
+                content: `const [red, setRed] = useState(255);  // Start with red at 255 or feel free to use another number
+                         const [green, setGreen] = useState(0);
+                        const [blue, setBlue] = useState(0);`
+              }
             ],
           },
         ],
       },
       {
-        title: "Section 7: Share With Your Friends",
+        title: "Section 6: Sharing The App With Your Friends",
         steps: [],
       },
     ],
-    fullcode: `import SwiftUI
-struct ContentView: View {
-    @State private var red: Double = 0.5
-    @State private var green: Double = 0.5
-    @State private var blue: Double = 0.5
-    var body: some View {
-        VStack {
-            Text("Color Mixer")
-                .font(.largeTitle)
-                .padding()
-            Rectangle()
-                .fill(Color(red: red, green: green, blue: blue))
-                .frame(width: 200, height: 200)
-                .cornerRadius(10)
-                .padding()
-            VStack {
-                SliderView(value: $red, textColor: .red)
-                SliderView(value: $green, textColor: .green)
-                SliderView(value: $blue, textColor: .blue)
-            }
-            .padding()
-        }
-    }
+    fullcode: `import { View, Text, StyleSheet ,Image,} from 'react-native';` +
+`import Slider from '@react-native-community/slider';` +
+"import React, { useState, useEffect } from 'react';" + 
+`export default function  App() {
+  const [red, setRed] = useState(128);
+  const [green, setGreen] = useState(128);
+  const [blue, setBlue] = useState(128);
+  const [studentName, setStudentName] = useState('Myron');
+ const [isReady, setIsReady] = useState(false);
+ useEffect(() => {
+    // Simulate a loading time for the welcome screen
+    setTimeout(() => {
+      setIsReady(true);
+    }, 4000); // Show for 4 seconds
+  }, []);
+  if (!isReady) {
+    return (
+      <View style={styles.splashContainer}>
+        <Image source={require('./assets/testimage3.png')} style={styles.logo} />
+        <Text style={styles.splashText}>Welcome to Color Mixer!</Text>
+         <View style={styles.footerText}>
+        <Text>Powered by TweekCode</Text>
+      </View>
+      </View>
+    );
+  }
+  ` +
+  `<View style={styles.container}>
+      <Text style={styles.title}>Color Mixer</Text>
+      <View
+        style={[
+          styles.colorPreview,
+          {
+`
+  + "backgroundColor: `rgb(${red}, ${green}, ${blue})`,"+
+   ` },
+        ]}
+      />
+      {/* Red Slider */}
+      <SliderView value={red} onValueChange={setRed} colorName="Red" />    
+      {/* Green Slider */}
+      <SliderView value={green} onValueChange={setGreen} colorName="Green" />  
+      {/* Blue Slider */}
+      <SliderView value={blue} onValueChange={setBlue} colorName="Blue" />
+      <View>
+        <Text style={styles.footerText}>App created by {studentName} on {new Date().toLocaleDateString()}</Text>
+      </View>
+    </View>
+    
 }
-struct SliderView: View {
-    @Binding var value: Double
-    var textColor: Color
-    var body: some View {
-        VStack {
-            Text("\\(textColor.description.capitalized): \\(Int(value * 255))")
-                .foregroundColor(textColor)
-            Slider(value: $value)
-                .accentColor(textColor)
-        }
-        .padding()
-    }
+function SliderView({ value, onValueChange, colorName }) {
+  return (
+    <View style={styles.sliderContainer}>
+      <Text style={{ color: colorName.toLowerCase() }}>
+        {colorName}: {value}
+      </Text>
+      <Slider
+        style={{ width: 200, height: 40 }}
+        minimumValue={0}
+        maximumValue={255}
+        value={value}
+        onValueChange={(val) => onValueChange(Math.floor(val))}
+        minimumTrackTintColor={colorName.toLowerCase()}
+      />
+    </View>
+  );
 }
-#Preview{
-    ContentView()
-}`,
+const styles = StyleSheet.create({
+splashContainer: {
+    flex: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eeeee4', // Your branded color
+  },
+  logo: {
+    width: 200,
+    height: 150,
+  },
+  splashText: {
+    fontSize: 24,
+    color: '#000000',
+     marginTop: 20,
+  },
+    footerText: {
+    color: '#000000',
+    fontSize: 14,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7b868',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+    colorPreview: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  sliderContainer: {
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+});
+`     
+    
+
+,
   },
   {
     id: "2",

@@ -1,11 +1,10 @@
 "use client";
 
-import { SuggestKitModal } from "@/components/Modals";
 import { PROJECT_LIST } from "@/constants/project";
+import { useKitContext } from "@/providers/KitProvider";
 import { Breadcrumbs, Button } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 
 const formatLabel = (label: string) => {
   return label
@@ -16,8 +15,8 @@ const formatLabel = (label: string) => {
 
 const MainHeader = () => {
   const pathname = usePathname();
-  const [opened, setOpened] = useState<boolean>(false);
   let title = "";
+  const { showSeeFullCodeModal, showInstruction, currentProject } = useKitContext();
 
   const generateBreadcrumbs = () => {
     const pathnames = pathname.split('/').slice(1, -1).filter((x) => x);
@@ -53,6 +52,10 @@ const MainHeader = () => {
         .join(" ") || "";
   }
 
+  const onClickGetInstruction = showInstruction;
+
+  const onClickSeeFullCode = showSeeFullCodeModal;
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -62,28 +65,39 @@ const MainHeader = () => {
               generateBreadcrumbs()
             }
           </div>
-          <div className="font-bold text-[16px]">{title}</div>
+          <div className="font-bold text-[16px] flex flex-wrap gap-[16px] items-center">
+            <span>{title}</span>
+            {
+              currentProject && <>
+                <Button
+                  sx={{ textTransform: 'none' }}
+                  variant="outlined"
+                  className={`!text-my-blue !border-my-blue !font-cathy-melody !text-[16px] !rounded-full !h-[36px]`}
+                  onClick={onClickGetInstruction}
+                >
+                  {`Get Instructions`}
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  className={`!text-my-blue !border-my-blue !font-cathy-melody !text-[16px] !rounded-full !h-[36px]`}
+                  onClick={onClickSeeFullCode}
+                >
+                  {`See Full Code`}
+                </Button>
+              </>
+            }
+
+          </div>
         </div>
 
-        <div className="flex gap-[8px]">
-          <Button
-            variant="outlined"
-            className={`!text-my-orange !border-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[48px]`}
-            onClick={() => setOpened(true)}
-          >
-            {`Suggest a Kit`}
-          </Button>
-
-          <Button
-            variant="contained"
-            className={`!text-white !bg-my-orange !font-cathy-melody !text-[16px] !rounded-full !h-[48px] !shadow-none`}
-          >
-            {`Subscribe for More`}
-          </Button>
+        <div className="flex gap-[8px] items-center">
+          <span>{'Needs help?'}</span>
+          <a href='#'>
+            <span className="text-my-orange underline">{'Our support page'}</span>
+          </a>
         </div>
       </div>
-
-      <SuggestKitModal visible={opened} onClose={() => setOpened(false)} />
     </>
   );
 };

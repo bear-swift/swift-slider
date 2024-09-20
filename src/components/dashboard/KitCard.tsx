@@ -21,15 +21,25 @@ const KitCard = ({ item }: KitCardProps) => {
     <div className="flex gap-[8px] justify-between items-center">
       {/* kit description */}
       <div className="flex gap-[16px]">
-        <div className="w-[84px] h-[84px] rounded-[12px] flex items-center justify-center overflow-hidden">
-          <Image
-            src={item.icon}
-            alt="kit"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-full"
-          />
+        <div className="flex flex-col gap-[12px] items-center">
+          <div className="w-[84px] h-[84px] rounded-[12px] flex items-center justify-center overflow-hidden">
+            <Image
+              src={item.icon}
+              alt="kit"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full"
+            />
+          </div>
+
+          <Button
+            variant="contained"
+            className="!bg-my-blue !text-white !rounded-full !font-cathy-melody !text-base"
+            onClick={onDetailsClicked}
+          >
+            {`See Details`}
+          </Button>
         </div>
 
         <div className="flex flex-col gap-[8px]">
@@ -57,14 +67,6 @@ const KitCard = ({ item }: KitCardProps) => {
           />
         </div>
       </div>
-
-      <Button
-        variant="contained"
-        className="!h-[40px] !bg-my-blue !text-white !rounded-full !font-cathy-melody !text-base"
-        onClick={onDetailsClicked}
-      >
-        {`See Details`}
-      </Button>
     </div>
   );
 };

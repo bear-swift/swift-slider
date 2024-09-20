@@ -26,7 +26,7 @@ const CodePanel = (props: CodePanelProps) => {
         className={`h-[30px] text-white flex justify-between items-center px-[16px]`}
         style={{ backgroundColor: popup ? "#F4961D" : "#365CA7" }}
       >
-        <span>Swift</span>
+        <span>React Native</span>
         {copyable && (
           <div
             className="flex items-center gap-[4px] cursor-pointer"

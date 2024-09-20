@@ -16,11 +16,12 @@ const config: Config = {
       },
       fontFamily: {
         "cathy-melody": "var(--font-catchy-Melody)",
+        "mulish": "var(--font-mulish)"
       },
       fontSize: {
         base: "14px",
       },
-      screens:{
+      screens: {
         md: "1024px", // default is 768px
         lg: "1280px", // default is 1024px
         xl: "1440px",

@@ -13,7 +13,7 @@ interface ResizableBoxProps {
 
 const ResizableContainer: React.FC<ResizableBoxProps> = ({
   children, onResize,
-  width = 400,
+  width = 900,
   height = 600,
   className = "",
 }) => {
